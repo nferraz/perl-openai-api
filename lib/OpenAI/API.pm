@@ -5,28 +5,34 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 sub new {
     my ( $class, %params ) = @_;
     my $self = {
         api_key  => $params{api_key} // $ENV{OPENAI_KEY},
-        endpoint => $params{endpoint} || 'https://api.openai.com/v1/',
+        endpoint => $params{endpoint} || 'https://api.openai.com/v1',
     };
     return bless $self, $class;
 }
 
 sub completions {
     my ( $self, %params ) = @_;
+    return $self->_openai_request( 'completions', \%params );
+}
+
+sub _openai_request {
+    my ( $self, $method, $params ) = @_;
+
     my $ua = LWP::UserAgent->new();
 
     my $req = HTTP::Request->new(
-        POST => "$self->{endpoint}completions",
+        POST => "$self->{endpoint}/$method",
         [
             'Content-Type'  => 'application/json',
             'Authorization' => "Bearer $self->{api_key}",
         ],
-        encode_json( \%params ),
+        encode_json($params),
     );
 
     return $ua->request($req);
