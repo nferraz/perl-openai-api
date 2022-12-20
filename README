@@ -1,16 +1,11 @@
 OpenAI-API
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+OpenAI::API is a Perl module that provides an interface to the OpenAI API,
+which allows you to generate text, translate languages, summarize text,
+and perform other tasks using the language models developed by OpenAI.
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
-
+To use the OpenAI::API module, you will need an API key, which you can obtain by
+signing up for an account on the OpenAI website (https://beta.openai.com/).
 
 INSTALLATION
 
