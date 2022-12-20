@@ -35,7 +35,13 @@ sub _openai_request {
         encode_json($params),
     );
 
-    return $ua->request($req);
+    my $res = $ua->request($req);
+
+    if ( $res->is_success ) {
+        return decode_json( $res->decoded_content );
+    } else {
+        die "Error retrieving '$method': " . $res->status_line;
+    }
 }
 
 1;
