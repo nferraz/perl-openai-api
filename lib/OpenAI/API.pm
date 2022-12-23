@@ -5,7 +5,7 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -80,7 +80,7 @@ which allows you to generate text, translate languages, summarize text,
 and perform other tasks using the language models developed by OpenAI.
 
 To use the OpenAI::API module, you will need an API key, which you can obtain by
-signing up for an account on the OpenAI website (https://beta.openai.com/).
+signing up for an account on the L<OpenAI website|https://beta.openai.com>.
 
 =head1 METHODS
 
@@ -90,13 +90,18 @@ Creates a new OpenAI::API object.
 
 =over 4
 
-=item api_key (optional if you set the OPENAI_API_KEY environment variable)
+=item api_key (optional)
 
-Your API key. Defaults to the value of C<$ENV{OPENAI_API_KEY}>.
+Your API key. Default: C<$ENV{OPENAI_API_KEY}>.
+
+Attention: never commit API keys to your repository. Use the C<OPENAI_API_KEY>
+environment variable instead.
+
+See: L<Best Practices for API Key Safety|https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety>.
 
 =item endpoint (optional)
 
-The endpoint URL for the OpenAI API. Defaults to 'https://api.openai.com/v1/'.
+The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 =back
 
@@ -142,7 +147,7 @@ The presence penalty to use for sampling.
 
 =head1 SEE ALSO
 
-https://beta.openai.com/docs/api-reference/overview
+L<OpenAI Reference Overview|https://beta.openai.com/docs/api-reference/overview>
 
 =head1 AUTHOR
 
