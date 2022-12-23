@@ -5,15 +5,20 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.03;
+our $VERSION = 0.05;
 
 sub new {
     my ( $class, %params ) = @_;
     my $self = {
-        api_key  => $params{api_key} // $ENV{OPENAI_KEY},
+        api_key  => $params{api_key} // $ENV{OPENAI_API_KEY},
         endpoint => $params{endpoint} || 'https://api.openai.com/v1',
     };
     return bless $self, $class;
+}
+
+sub edits {
+    my ( $self, %params ) = @_;
+    return $self->_openai_request( 'edits', \%params );
 }
 
 sub completions {
@@ -85,9 +90,9 @@ Creates a new OpenAI::API object.
 
 =over 4
 
-=item api_key (optional if you set the OPENAI_KEY environment variable)
+=item api_key (optional if you set the OPENAI_API_KEY environment variable)
 
-Your API key. Defaults to the value of C<$ENV{OPENAI_KEY}>.
+Your API key. Defaults to the value of C<$ENV{OPENAI_API_KEY}>.
 
 =item endpoint (optional)
 
