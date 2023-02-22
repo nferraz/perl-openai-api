@@ -5,7 +5,7 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.08;
+our $VERSION = 0.09;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -71,16 +71,22 @@ OpenAI::API - A Perl module for accessing the OpenAI API
 
     use OpenAI::API;
 
-    my $openai = OpenAI::API->new( api_key => 'YOUR_API_KEY' );
+    my $openai = OpenAI::API->new(); # uses OPENAI_API_KEY environment variable
 
-    my $response = $openai->completions(
-        model             => 'text-davinci-003',
-        prompt            => 'What is the capital of France?',
-        max_tokens        => 2048,
-        temperature       => 0.5,
-        top_p             => 1,
-        frequency_penalty => 0,
-        presence_penalty  => 0
+    my $completions = $openai->completions(
+        model  => 'text-davinci-003',
+        prompt => 'What is the capital of France?',
+    );
+
+    my $edits = $openai->edits(
+        model       => 'text-davinci-edit-001',
+        input       => 'What day of the wek is it?',
+        instruction => 'Fix the spelling mistakes',
+    );
+
+    my $moderations = $openai->moderations(
+        model => 'text-moderation-latest',
+        input => 'I want to kill them.',
     );
 
 =head1 DESCRIPTION
@@ -90,7 +96,7 @@ which allows you to generate text, translate languages, summarize text,
 and perform other tasks using the language models developed by OpenAI.
 
 To use the OpenAI::API module, you will need an API key, which you can obtain by
-signing up for an account on the L<OpenAI website|https://openai.com>.
+signing up for an account on the L<OpenAI website|https://platform.openai.com>.
 
 =head1 METHODS
 
@@ -100,7 +106,7 @@ Creates a new OpenAI::API object.
 
 =over 4
 
-=item api_key (optional)
+=item * api_key [optional]
 
 Your API key. Default: C<$ENV{OPENAI_API_KEY}>.
 
@@ -109,7 +115,7 @@ environment variable instead.
 
 See: L<Best Practices for API Key Safety|https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety>.
 
-=item endpoint (optional)
+=item * endpoint [optional]
 
 The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
@@ -119,37 +125,37 @@ The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 Given a prompt, the model will return one or more predicted completions.
 
-Documentation: L<Completions|https://beta.openai.com/docs/api-reference/completions>
+Documentation: L<Completions|https://platform.openai.com/docs/api-reference/completions>
 
 =over 4
 
-=item model
+=item * model
 
 The name of the language model to use.
 
-See 'https://beta.openai.com/docs/api-reference/models'.
+See 'https://platform.openai.com/docs/api-reference/models'.
 
-=item prompt
+=item * prompt
 
 The prompt for the text generation.
 
-=item max_tokens (optional)
+=item * max_tokens [optional]
 
 The maximum number of tokens to generate.
 
-=item temperature (optional)
+=item * temperature [optional]
 
 The temperature to use for sampling.
 
-=item top_p (optional)
+=item * top_p [optional]
 
 The top-p value to use for sampling.
 
-=item frequency_penalty (optional)
+=item * frequency_penalty [optional]
 
 The frequency penalty to use for sampling.
 
-=item presence_penalty (optional)
+=item * presence_penalty [optional]
 
 The presence penalty to use for sampling.
 
@@ -161,21 +167,70 @@ Creates a new edit for the provided input, instruction, and parameters.
 
 Documentation: L<Edits|https://platform.openai.com/docs/api-reference/edits>
 
+=over 4
+
+=item * model
+
+ID of the model to use. You can use the text-davinci-edit-001 or
+code-davinci-edit-001 model with this endpoint.
+
+=item * input [optional]
+
+The input text to use as a starting point for the edit.
+
+=item * instruction
+
+The instruction that tells the model how to edit the prompt.
+
+=item * n [optional]
+
+How many edits to generate for the input and instruction.
+
+=item * temperature [optional]
+
+What sampling temperature to use, between 0 and 2.
+
+=item * top_p [optional]
+
+An alternative to sampling with temperature.
+
+=back
+
 =head2 embeddings()
 
-Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+Get a vector representation of a given input that can be easily consumed
+by machine learning models and algorithms.
 
 Documentation: L<Embeddings|https://platform.openai.com/docs/api-reference/embeddings>
 
+=over 4
+
+=item * model
+
+=item * input
+
+=item * user [optional]
+
+=back
+
 =head2 moderations()
 
-Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+Given a input text, outputs if the model classifies it as violating
+OpenAI's content policy.
 
 Documentation: L<Moderations|https://platform.openai.com/docs/api-reference/moderations>
 
+=over 4
+
+=item * input
+
+=item * model [optional]
+
+=back
+
 =head1 SEE ALSO
 
-L<OpenAI Reference Overview|https://beta.openai.com/docs/api-reference/overview>
+L<OpenAI Reference Overview|https://platform.openai.com/docs/api-reference/overview>
 
 =head1 AUTHOR
 
