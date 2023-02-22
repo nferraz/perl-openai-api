@@ -5,7 +5,7 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.07;
+our $VERSION = 0.08;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -16,14 +16,24 @@ sub new {
     return bless $self, $class;
 }
 
+sub completions {
+    my ( $self, %params ) = @_;
+    return $self->_openai_request( 'completions', \%params );
+}
+
 sub edits {
     my ( $self, %params ) = @_;
     return $self->_openai_request( 'edits', \%params );
 }
 
-sub completions {
+sub embeddings {
     my ( $self, %params ) = @_;
-    return $self->_openai_request( 'completions', \%params );
+    return $self->_openai_request( 'embeddings', \%params );
+}
+
+sub moderations {
+    my ( $self, %params ) = @_;
+    return $self->_openai_request( 'moderations', \%params );
 }
 
 sub _openai_request {
@@ -80,11 +90,11 @@ which allows you to generate text, translate languages, summarize text,
 and perform other tasks using the language models developed by OpenAI.
 
 To use the OpenAI::API module, you will need an API key, which you can obtain by
-signing up for an account on the L<OpenAI website|https://beta.openai.com>.
+signing up for an account on the L<OpenAI website|https://openai.com>.
 
 =head1 METHODS
 
-=head2 new
+=head2 new()
 
 Creates a new OpenAI::API object.
 
@@ -105,11 +115,11 @@ The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 =back
 
-=head2 completions
+=head2 completions()
 
-Sends a request to the OpenAI API to generate text.
+Given a prompt, the model will return one or more predicted completions.
 
-See 'https://beta.openai.com/docs/api-reference/completions/create'.
+Documentation: L<Completions|https://beta.openai.com/docs/api-reference/completions>
 
 =over 4
 
@@ -145,6 +155,24 @@ The presence penalty to use for sampling.
 
 =back
 
+=head2 edits()
+
+Creates a new edit for the provided input, instruction, and parameters.
+
+Documentation: L<Edits|https://platform.openai.com/docs/api-reference/edits>
+
+=head2 embeddings()
+
+Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+
+Documentation: L<Embeddings|https://platform.openai.com/docs/api-reference/embeddings>
+
+=head2 moderations()
+
+Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+
+Documentation: L<Moderations|https://platform.openai.com/docs/api-reference/moderations>
+
 =head1 SEE ALSO
 
 L<OpenAI Reference Overview|https://beta.openai.com/docs/api-reference/overview>
@@ -155,7 +183,7 @@ Nelson Ferraz <lt>nferraz@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2022 by Nelson Ferraz
+Copyright (C) 2022, 2023 by Nelson Ferraz
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.30.2 or,

@@ -1,5 +1,5 @@
 #!perl
-use 5.006;
+
 use strict;
 use warnings;
 use Test::More;
@@ -23,5 +23,5 @@ SKIP: {
         presence_penalty  => 0
     );
 
-    ok( $response->is_success ) or note( $response->status_line );
+    like( $response->{choices}[0]{text}, qr{\bParis\b} );
 }
