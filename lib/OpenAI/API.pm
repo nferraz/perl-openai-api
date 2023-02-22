@@ -18,25 +18,25 @@ sub new {
 
 sub completions {
     my ( $self, %params ) = @_;
-    return $self->_openai_request( 'completions', \%params );
+    return $self->_post( 'completions', \%params );
 }
 
 sub edits {
     my ( $self, %params ) = @_;
-    return $self->_openai_request( 'edits', \%params );
+    return $self->_post( 'edits', \%params );
 }
 
 sub embeddings {
     my ( $self, %params ) = @_;
-    return $self->_openai_request( 'embeddings', \%params );
+    return $self->_post( 'embeddings', \%params );
 }
 
 sub moderations {
     my ( $self, %params ) = @_;
-    return $self->_openai_request( 'moderations', \%params );
+    return $self->_post( 'moderations', \%params );
 }
 
-sub _openai_request {
+sub _post {
     my ( $self, $method, $params ) = @_;
 
     my $ua = LWP::UserAgent->new();
