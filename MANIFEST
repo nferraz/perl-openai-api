@@ -9,6 +9,7 @@ t/00-load.t
 t/01-completions.t
 t/02-edits.t
 t/03-moderations.t
+t/10-exceptions.t
 t/manifest.t
 t/pod-coverage.t
 t/pod.t

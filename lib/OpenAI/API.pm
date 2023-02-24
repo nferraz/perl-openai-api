@@ -5,7 +5,7 @@ use warnings;
 use LWP::UserAgent;
 use JSON::MaybeXS;
 
-our $VERSION = 0.10;
+our $VERSION = 0.11;
 
 sub new {
     my ( $class, %params ) = @_;
