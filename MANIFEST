@@ -14,7 +14,6 @@ t/01-completions.t
 t/02-edits.t
 t/03-moderations.t
 t/10-exceptions-validation.t
-t/10-exceptions.t
 t/11-exceptions-internet.t
 t/manifest.t
 t/pod-coverage.t
