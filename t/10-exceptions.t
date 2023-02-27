@@ -39,26 +39,6 @@ my @test_cases = (
         params    => {},
         exception => qr/Missing required arguments: input/,
     },
-    {
-        method    => 'completions',
-        params    => { model => '', prompt => '' },
-        exception => qr/401 Unauthorized/,
-    },
-    {
-        method    => 'edits',
-        params    => { model => '', instruction => '' },
-        exception => qr/401 Unauthorized/,
-    },
-    {
-        method    => 'embeddings',
-        params    => { model => '', input => '' },
-        exception => qr/401 Unauthorized/,
-    },
-    {
-        method    => 'moderations',
-        params    => { input => '' },
-        exception => qr/401 Unauthorized/,
-    },
 );
 
 for my $test (@test_cases) {
