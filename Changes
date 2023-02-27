@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.13    2023-02-27
+        OpenAI::API::Request::* modules
+
 0.12    2023-02-27
         Require defined OPENAI_API_KEY.
 

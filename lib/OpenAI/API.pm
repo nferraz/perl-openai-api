@@ -8,7 +8,12 @@ use Carp qw/croak/;
 use JSON::MaybeXS;
 use LWP::UserAgent;
 
-our $VERSION = 0.12;
+use OpenAI::API::Request::Completion;
+use OpenAI::API::Request::Edit;
+use OpenAI::API::Request::Embedding;
+use OpenAI::API::Request::Moderation;
+
+our $VERSION = 0.13;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -23,22 +28,26 @@ sub new {
 
 sub completions {
     my ( $self, %params ) = @_;
-    return $self->_post( 'completions', \%params );
+    my $request = OpenAI::API::Request::Completion->new( \%params );
+    return $self->_post( 'completions', { %{$request} } );
 }
 
 sub edits {
     my ( $self, %params ) = @_;
-    return $self->_post( 'edits', \%params );
+    my $request = OpenAI::API::Request::Edit->new( \%params );
+    return $self->_post( 'edits', { %{$request} } );
 }
 
 sub embeddings {
     my ( $self, %params ) = @_;
-    return $self->_post( 'embeddings', \%params );
+    my $request = OpenAI::API::Request::Embedding->new( \%params );
+    return $self->_post( 'edits', { %{$request} } );
 }
 
 sub moderations {
     my ( $self, %params ) = @_;
-    return $self->_post( 'moderations', \%params );
+    my $request = OpenAI::API::Request::Moderation->new( \%params );
+    return $self->_post( 'moderations', { %{$request} } );
 }
 
 sub _post {

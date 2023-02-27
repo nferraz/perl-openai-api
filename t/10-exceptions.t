@@ -22,7 +22,22 @@ my @test_cases = (
     {
         method    => 'completions',
         params    => {},
-        exception => qr/401 Unauthorized/,
+        exception => qr/Missing required arguments: model, prompt/,
+    },
+    {
+        method    => 'edits',
+        params    => {},
+        exception => qr/Missing required arguments: instruction, model/,
+    },
+    {
+        method    => 'embeddings',
+        params    => {},
+        exception => qr/Missing required arguments: input, model/,
+    },
+    {
+        method    => 'moderations',
+        params    => {},
+        exception => qr/Missing required arguments: input/,
     },
     {
         method    => 'completions',
