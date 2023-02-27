@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use Test::More;
+use Test::RequiresInternet;
 
 plan tests => 1;
 
