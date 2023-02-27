@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API - A Perl module for accessing the OpenAI API
+OpenAI::API - use OpenAI API to access GPT models
 
 =head1 SYNOPSIS
 
