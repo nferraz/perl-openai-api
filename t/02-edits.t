@@ -17,6 +17,7 @@ SKIP: {
         model       => 'text-davinci-edit-001',
         input       => 'What day of the wek is it?',
         instruction => 'Fix the spelling mistakes',
+        temperature => 0,
     );
 
     is( $response->{choices}[0]{text}, "What day of the week is it?\n" );

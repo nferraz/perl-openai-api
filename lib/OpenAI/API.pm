@@ -2,10 +2,13 @@ package OpenAI::API;
 
 use strict;
 use warnings;
-use LWP::UserAgent;
-use JSON::MaybeXS;
 
-our $VERSION = 0.11;
+use Carp qw/croak/;
+
+use JSON::MaybeXS;
+use LWP::UserAgent;
+
+our $VERSION = 0.12;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -13,6 +16,8 @@ sub new {
         api_key  => $params{api_key} // $ENV{OPENAI_API_KEY},
         endpoint => $params{endpoint} || 'https://api.openai.com/v1',
     };
+
+    croak 'Missing OPENAI_API_KEY' if !defined $self->{api_key};
     return bless $self, $class;
 }
 

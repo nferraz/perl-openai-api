@@ -8,12 +8,22 @@ use Test::Exception;
 
 use OpenAI::API;
 
-# force authentication error
-$ENV{OPENAI_API_KEY} = '';
+my $openai = OpenAI::API->new( api_key => '' );
 
-my $openai = OpenAI::API->new();
+# force error
+$ENV{OPENAI_API_KEY} = undef;
 
 my @test_cases = (
+    {
+        method    => 'new',
+        params    => {},
+        exception => qr/Missing OPENAI_API_KEY/,
+    },
+    {
+        method    => 'completions',
+        params    => {},
+        exception => qr/401 Unauthorized/,
+    },
     {
         method    => 'completions',
         params    => { model => '', prompt => '' },
