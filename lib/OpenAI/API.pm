@@ -13,7 +13,7 @@ use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
 use OpenAI::API::Request::Moderation;
 
-our $VERSION = 0.13;
+our $VERSION = 0.14;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -79,7 +79,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API - use OpenAI API to access GPT models
+OpenAI::API - access GPT models via OpenAI API
 
 =head1 SYNOPSIS
 
