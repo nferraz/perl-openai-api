@@ -8,6 +8,7 @@ use Carp qw/croak/;
 use JSON::MaybeXS;
 use LWP::UserAgent;
 
+use OpenAI::API::Request::Chat;
 use OpenAI::API::Request::Completion;
 use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
@@ -24,6 +25,12 @@ sub new {
 
     croak 'Missing OPENAI_API_KEY' if !defined $self->{api_key};
     return bless $self, $class;
+}
+
+sub chat {
+    my ( $self, %params ) = @_;
+    my $request = OpenAI::API::Request::Chat->new( \%params );
+    return $self->_post( 'chat/completions', { %{$request} } );
 }
 
 sub completions {
