@@ -86,7 +86,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API - access GPT models via OpenAI API
+OpenAI::API - Perl interface to OpenAI API
 
 =head1 SYNOPSIS
 
