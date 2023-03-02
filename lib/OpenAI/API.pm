@@ -14,7 +14,7 @@ use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
 use OpenAI::API::Request::Moderation;
 
-our $VERSION = 0.15;
+our $VERSION = 0.16;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -94,6 +94,11 @@ OpenAI::API - access GPT models via OpenAI API
 
     my $openai = OpenAI::API->new(); # uses OPENAI_API_KEY environment variable
 
+    my $chat = $openai->chat(
+        model       => 'gpt-3.5-turbo',
+        messages    => [ { "role" => "user", "content" => "Hello!" }, ],
+    );
+
     my $completions = $openai->completions(
         model  => 'text-davinci-003',
         prompt => 'What is the capital of France?',
@@ -142,6 +147,22 @@ The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 =back
 
+=head2 chat()
+
+Given a chat conversation, the model will return a chat completion response.
+
+Mandatory parameters:
+
+=over 4
+
+=item * model
+
+=item * messages
+
+=back
+
+More info: L<OpenAI::API::Request::Chat>
+
 =head2 completions()
 
 Given a prompt, the model will return one or more predicted completions.
@@ -152,11 +173,7 @@ Mandatory parameters:
 
 =item * model
 
-ID of the model to use.
-
 =item * prompt
-
-The prompt for the text generation.
 
 =back
 
@@ -172,16 +189,9 @@ Mandatory parameters:
 
 =item * model
 
-ID of the model to use. You can use the text-davinci-edit-001 or
-code-davinci-edit-001 model with this endpoint.
-
 =item * instruction
 
-The instruction that tells the model how to edit the prompt.
-
 =item * input [optional, but often required]
-
-The input text to use as a starting point for the edit.
 
 =back
 
@@ -191,6 +201,8 @@ More info: L<OpenAI::API::Request::Edit>
 
 Get a vector representation of a given input that can be easily consumed
 by machine learning models and algorithms.
+
+Mandatory parameters:
 
 =over 4
 
@@ -215,7 +227,7 @@ Mandatory parameters:
 
 =back
 
-Documentation: L<Moderations|https://platform.openai.com/docs/api-reference/moderations>
+More info: L<OpenAI::API::Request::Moderation>
 
 =head1 SEE ALSO
 
