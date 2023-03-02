@@ -28,6 +28,19 @@ my %WriteMakefileArgs = (
         'strictures'           => '2.000006',
         'Types::Standard'      => '2.002001',
     },
+    META_MERGE => {
+        'meta-spec' => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url  => 'https://github.com/nferraz/perl-openai-api.git',
+                web  => 'https://github.com/nferraz/perl-openai-api',
+            },
+            bugtracker => {
+                web => 'https://github.com/nferraz/perl-openai-api/issues',
+            },
+        },
+    },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'OpenAI-API-*' },
 );
