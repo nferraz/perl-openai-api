@@ -13,7 +13,7 @@ use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
 use OpenAI::API::Request::Moderation;
 
-our $VERSION = 0.14;
+our $VERSION = 0.15;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -139,79 +139,27 @@ The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 Given a prompt, the model will return one or more predicted completions.
 
+Mandatory parameters:
+
 =over 4
 
 =item * model
 
 ID of the model to use.
 
-See L<Models overview|https://platform.openai.com/docs/models/overview>
-for a reference of them.
-
 =item * prompt
 
 The prompt for the text generation.
 
-=item * suffix [optional]
-
-The suffix that comes after a completion of inserted text.
-
-=item * max_tokens [optional]
-
-The maximum number of tokens to generate.
-
-Most models have a context length of 2048 tokens (except for the newest
-models, which support 4096.
-
-=item * temperature [optional]
-
-What sampling temperature to use, between 0 and 2. Higher values like
-0.8 will make the output more random, while lower values like 0.2 will
-make it more focused and deterministic.
-
-=item * top_p [optional]
-
-An alternative to sampling with temperature, called nucleus sampling.
-
-We generally recommend altering this or C<temperature> but not both.
-
-=item * n [optional]
-
-How many completions to generate for each prompt.
-
-Use carefully and ensure that you have reasonable settings for
-C<max_tokens> and C<stop>.
-
-=item * stop [optional]
-
-Up to 4 sequences where the API will stop generating further tokens. The
-returned text will not contain the stop sequence.
-
-=item * frequency_penalty [optional]
-
-Number between -2.0 and 2.0. Positive values penalize new tokens based
-on their existing frequency in the text so far.
-
-=item * presence_penalty [optional]
-
-Number between -2.0 and 2.0. Positive values penalize new tokens based
-on whether they appear in the text so far.
-
-=item * best_of [optional]
-
-Generates best_of completions server-side and returns the "best" (the
-one with the highest log probability per token).
-
-Use carefully and ensure that you have reasonable settings for
-C<max_tokens> and C<stop>.
-
 =back
 
-Documentation: L<Completions|https://platform.openai.com/docs/api-reference/completions>
+More info: L<OpenAI::API::Request::Completion>
 
 =head2 edits()
 
 Creates a new edit for the provided input, instruction, and parameters.
+
+Mandatory parameters:
 
 =over 4
 
@@ -220,29 +168,17 @@ Creates a new edit for the provided input, instruction, and parameters.
 ID of the model to use. You can use the text-davinci-edit-001 or
 code-davinci-edit-001 model with this endpoint.
 
-=item * input [optional]
-
-The input text to use as a starting point for the edit.
-
 =item * instruction
 
 The instruction that tells the model how to edit the prompt.
 
-=item * n [optional]
+=item * input [optional, but often required]
 
-How many edits to generate for the input and instruction.
-
-=item * temperature [optional]
-
-What sampling temperature to use, between 0 and 2.
-
-=item * top_p [optional]
-
-An alternative to sampling with temperature.
+The input text to use as a starting point for the edit.
 
 =back
 
-Documentation: L<Edits|https://platform.openai.com/docs/api-reference/edits>
+More info: L<OpenAI::API::Request::Edit>
 
 =head2 embeddings()
 
@@ -255,22 +191,20 @@ by machine learning models and algorithms.
 
 =item * input
 
-=item * user [optional]
-
 =back
 
-Documentation: L<Embeddings|https://platform.openai.com/docs/api-reference/embeddings>
+More info: L<OpenAI::API::Request::Embedding>
 
 =head2 moderations()
 
 Given a input text, outputs if the model classifies it as violating
 OpenAI's content policy.
 
+Mandatory parameters:
+
 =over 4
 
 =item * input
-
-=item * model [optional]
 
 =back
 
