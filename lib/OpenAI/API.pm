@@ -89,6 +89,8 @@ __END__
 
 OpenAI::API - Perl interface to OpenAI API
 
+=for readme plugin version
+
 =head1 SYNOPSIS
 
     use OpenAI::API;
@@ -124,6 +126,41 @@ and perform other tasks using the language models developed by OpenAI.
 
 To use the OpenAI::API module, you will need an API key, which you can obtain by
 signing up for an account on the L<OpenAI website|https://platform.openai.com>.
+
+=begin :readme
+
+=head1 INSTALLATION
+
+If you have cpanm, you only need one line:
+
+    % cpanm OpenAI::API
+
+Alternatively, if your CPAN shell is set up, you should just be able
+to do:
+
+    % cpan OpenAI::API
+
+As a last resort, you can manually install it:
+
+    perl Makefile.PL
+    make
+    make test
+    make install
+
+If your perl is system-managed, you can create a L<local::lib> in your
+home directory to install modules to. For details, see the
+L<local::lib documentation|https://metacpan.org/pod/local::lib>.
+
+=head1 DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc OpenAI::API
+
+=end :readme
+
+=for readme stop
 
 =head1 METHODS
 
@@ -234,9 +271,19 @@ More info: L<OpenAI::API::Request::Moderation>
 
 L<OpenAI Reference Overview|https://platform.openai.com/docs/api-reference/overview>
 
+=for readme start
+
 =head1 AUTHOR
 
 Nelson Ferraz E<lt>nferraz@gmail.comE<gt>
+
+=head1 SUPPORT
+
+This module is developed on
+L<GitHub|https://github.com/nferraz/perl-openai-api>.
+
+Send ideas, feedback, tasks, or bugs to
+L<GitHub Issues|https://github.com/nferraz/perl-openai-api/issues>.
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -245,5 +292,7 @@ Copyright (C) 2022, 2023 by Nelson Ferraz
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.30.2 or,
 at your option, any later version of Perl 5 you may have available.
+
+=for readme stop
 
 =cut
