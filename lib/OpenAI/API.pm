@@ -21,6 +21,7 @@ sub new {
     my $self = {
         api_key  => $params{api_key} // $ENV{OPENAI_API_KEY},
         endpoint => $params{endpoint} || 'https://api.openai.com/v1',
+        timeout  => $params{timeout} // 60,
     };
 
     croak 'Missing OPENAI_API_KEY' if !defined $self->{api_key};
@@ -60,7 +61,7 @@ sub moderations {
 sub _post {
     my ( $self, $method, $params ) = @_;
 
-    my $ua = LWP::UserAgent->new();
+    my $ua = LWP::UserAgent->new( timeout => $params->{timeout} );
 
     my $req = HTTP::Request->new(
         POST => "$self->{endpoint}/$method",
