@@ -35,35 +35,38 @@ sub new {
 sub chat {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Request::Chat->new( \%params );
-    return $self->_post( 'chat/completions', { %{$request} } );
+    return $self->_post( $request );
 }
 
 sub completions {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Request::Completion->new( \%params );
-    return $self->_post( 'completions', { %{$request} } );
+    return $self->_post( $request );
 }
 
 sub edits {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Request::Edit->new( \%params );
-    return $self->_post( 'edits', { %{$request} } );
+    return $self->_post( $request );
 }
 
 sub embeddings {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Request::Embedding->new( \%params );
-    return $self->_post( 'edits', { %{$request} } );
+    return $self->_post( $request );
 }
 
 sub moderations {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Request::Moderation->new( \%params );
-    return $self->_post( 'moderations', { %{$request} } );
+    return $self->_post( $request );
 }
 
 sub _post {
-    my ( $self, $method, $params ) = @_;
+    my ( $self, $request ) = @_;
+
+    my $method = $request->endpoint();
+    my %params = %{$request};
 
     my $req = HTTP::Request->new(
         POST => "$self->{endpoint}/$method",
@@ -71,7 +74,7 @@ sub _post {
             'Content-Type'  => 'application/json',
             'Authorization' => "Bearer $self->{api_key}",
         ],
-        encode_json($params),
+        encode_json(\%params),
     );
 
     for my $attempt ( 1 .. $self->{retry} ) {
