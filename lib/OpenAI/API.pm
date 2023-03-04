@@ -14,7 +14,7 @@ use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
 use OpenAI::API::Request::Moderation;
 
-our $VERSION = 0.19;
+our $VERSION = 0.20;
 
 sub new {
     my ( $class, %params ) = @_;
@@ -23,6 +23,8 @@ sub new {
         endpoint => $params{endpoint} || 'https://api.openai.com/v1',
         timeout  => $params{timeout} // 60,
     };
+
+    $self->{ua} = LWP::UserAgent->new( timeout => $params{timeout} );
 
     croak 'Missing OPENAI_API_KEY' if !defined $self->{api_key};
     return bless $self, $class;
@@ -61,8 +63,6 @@ sub moderations {
 sub _post {
     my ( $self, $method, $params ) = @_;
 
-    my $ua = LWP::UserAgent->new( timeout => $params->{timeout} );
-
     my $req = HTTP::Request->new(
         POST => "$self->{endpoint}/$method",
         [
@@ -72,7 +72,7 @@ sub _post {
         encode_json($params),
     );
 
-    my $res = $ua->request($req);
+    my $res = $self->{ua}->request($req);
 
     if ( $res->is_success ) {
         return decode_json( $res->decoded_content );
@@ -182,6 +182,10 @@ See: L<Best Practices for API Key Safety|https://help.openai.com/en/articles/511
 =item * endpoint [optional]
 
 The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
+
+=item * timeout [optional]
+
+The timeout value, in seconds. Default: 60 seconds.
 
 =back
 
