@@ -9,7 +9,11 @@ use Test::RequiresInternet;
 
 use OpenAI::API;
 
-my $openai = OpenAI::API->new( timeout => 0.01 );
+if (!$ENV{OPENAI_API_KEY}) {
+    plan skip_all => 'This test requires an OPENAI_API_KEY environment variable';
+}
+
+my $openai = OpenAI::API->new( timeout => 0.01, retry => 1 );
 
 my @test_cases = (
     {
