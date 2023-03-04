@@ -22,6 +22,8 @@ sub new {
         api_key  => $params{api_key} // $ENV{OPENAI_API_KEY},
         endpoint => $params{endpoint} || 'https://api.openai.com/v1',
         timeout  => $params{timeout} // 60,
+        retry    => $params{retry}   // 3,
+        sleep    => $params{sleep}   // 1,
     };
 
     $self->{ua} = LWP::UserAgent->new( timeout => $params{timeout} );
@@ -72,12 +74,16 @@ sub _post {
         encode_json($params),
     );
 
-    my $res = $self->{ua}->request($req);
+    for my $attempt ( 1 .. $self->{retry} ) {
+        my $res = $self->{ua}->request($req);
 
-    if ( $res->is_success ) {
-        return decode_json( $res->decoded_content );
-    } else {
-        die "Error retrieving '$method': " . $res->status_line;
+        if ( $res->is_success ) {
+            return decode_json( $res->decoded_content );
+        } elsif ( $res->code =~ /^(?:500|503|504|599)$/ && $attempt < $self->{retry} ) {
+            sleep( $self->{sleep} );
+        } else {
+            die "Error retrieving '$method': " . $res->status_line;
+        }
     }
 }
 
