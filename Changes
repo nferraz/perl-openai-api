@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.21    2024-03-04
+        Implement retry with sleep.
+
 0.20    2024-03-04
         Fix timeout.
 

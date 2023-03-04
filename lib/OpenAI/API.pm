@@ -14,7 +14,7 @@ use OpenAI::API::Request::Edit;
 use OpenAI::API::Request::Embedding;
 use OpenAI::API::Request::Moderation;
 
-our $VERSION = 0.20;
+our $VERSION = 0.21;
 
 sub new {
     my ( $class, %params ) = @_;
