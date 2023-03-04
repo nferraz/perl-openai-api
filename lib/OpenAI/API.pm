@@ -19,11 +19,11 @@ our $VERSION = 0.21;
 sub new {
     my ( $class, %params ) = @_;
     my $self = {
-        api_key  => $params{api_key} // $ENV{OPENAI_API_KEY},
-        endpoint => $params{endpoint} || 'https://api.openai.com/v1',
-        timeout  => $params{timeout} // 60,
-        retry    => $params{retry}   // 3,
-        sleep    => $params{sleep}   // 1,
+        api_key  => $params{api_key}  // $ENV{OPENAI_API_KEY},
+        api_base => $params{api_base} // $ENV{OPENAI_API_BASE} // 'https://api.openai.com/v1',
+        timeout  => $params{timeout}  // 60,
+        retry    => $params{retry}    // 3,
+        sleep    => $params{sleep}    // 1,
     };
 
     $self->{ua} = LWP::UserAgent->new( timeout => $params{timeout} );
@@ -69,7 +69,7 @@ sub _post {
     my %params = %{$request};
 
     my $req = HTTP::Request->new(
-        POST => "$self->{endpoint}/$method",
+        POST => "$self->{api_base}/$method",
         [
             'Content-Type'  => 'application/json',
             'Authorization' => "Bearer $self->{api_key}",
@@ -188,9 +188,9 @@ environment variable instead.
 
 See: L<Best Practices for API Key Safety|https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety>.
 
-=item * endpoint [optional]
+=item * api_base [optional]
 
-The endpoint URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
+The api_base URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 
 =item * timeout [optional]
 
