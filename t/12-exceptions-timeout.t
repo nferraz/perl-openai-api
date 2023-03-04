@@ -15,7 +15,7 @@ my @test_cases = (
     {
         method    => 'completions',
         params    => { model => 'text-davinci-003', prompt => 'How would you explain the idea of justice?' },
-        exception => qr/Operation timed out/,
+        exception => qr/timed out/i,
     },
 );
 
