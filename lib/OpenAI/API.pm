@@ -16,14 +16,19 @@ use OpenAI::API::Request::Moderation;
 
 our $VERSION = 0.22;
 
+my $DEFAULT_API_BASE = 'https://api.openai.com/v1';
+my $DEFAULT_TIMEOUT  = 60;
+my $DEFAULT_RETRIES  = 3;
+my $DEFAULT_SLEEP    = 1;
+
 sub new {
     my ( $class, %params ) = @_;
     my $self = {
         api_key  => $params{api_key}  // $ENV{OPENAI_API_KEY},
-        api_base => $params{api_base} // $ENV{OPENAI_API_BASE} // 'https://api.openai.com/v1',
-        timeout  => $params{timeout}  // 60,
-        retry    => $params{retry}    // 3,
-        sleep    => $params{sleep}    // 1,
+        api_base => $params{api_base} // $ENV{OPENAI_API_BASE} // $DEFAULT_API_BASE,
+        timeout  => $params{timeout}  // $DEFAULT_TIMEOUT,
+        retry    => $params{retry}    // $DEFAULT_RETRIES,
+        sleep    => $params{sleep}    // $DEFAULT_SLEEP,
     };
 
     $self->{ua} = LWP::UserAgent->new( timeout => $params{timeout} );
