@@ -61,7 +61,12 @@ sub moderations {
 sub _post {
     my ( $self, $method, $params ) = @_;
 
-    my $ua = LWP::UserAgent->new( timeout => $params->{timeout} );
+# TEMP DEBUG CODE, NEED REMOVE
+use Data::Dumper;
+print 'in OpenAI::API::_post(), received $params = ', Dumper($params), "\n";
+    my $ua = LWP::UserAgent->new( timeout => $params->{timeout} );       # Error retrieving 'foo': 400 Bad Request
+#    my $ua = LWP::UserAgent->new();  $ua->timeout($params->{timeout});  # Error retrieving 'foo': 400 Bad Request
+print 'in OpenAI::API::_post(), have $ua = ', Dumper($ua), "\n";
 
     my $req = HTTP::Request->new(
         POST => "$self->{endpoint}/$method",

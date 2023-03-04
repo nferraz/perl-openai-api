@@ -25,6 +25,7 @@ has frequency_penalty => ( is => 'rw', isa => Num, );
 has best_of           => ( is => 'rw', isa => Int, );
 has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
+has timeout           => ( is => 'rw', isa => Int, );
 
 1;
 

@@ -12,6 +12,7 @@ has model => ( is => 'rw', isa => Str, required => 1, );
 has input => ( is => 'rw', isa => Str, required => 1, );
 
 has user => ( is => 'rw', isa => Str, );
+has timeout => ( is => 'rw', isa => Int, );
 
 1;
 

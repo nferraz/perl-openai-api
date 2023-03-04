@@ -23,6 +23,7 @@ has presence_penalty  => ( is => 'rw', isa => Num, );
 has frequency_penalty => ( is => 'rw', isa => Num, );
 has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
+has timeout           => ( is => 'rw', isa => Int, );
 
 1;
 

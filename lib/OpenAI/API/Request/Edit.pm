@@ -15,6 +15,7 @@ has input       => ( is => 'rw', isa => Str, );
 has temperature => ( is => 'rw', isa => Num, );
 has top_p       => ( is => 'rw', isa => Num, );
 has n           => ( is => 'rw', isa => Int, );
+has timeout     => ( is => 'rw', isa => Int, );
 
 1;
 
