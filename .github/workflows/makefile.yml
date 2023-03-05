@@ -13,12 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: shogo82148/actions-setup-perl@v1
+      with:
+        perl-version: '5.34'
 
-    - name: perl Makefile.PL
-      run: perl Makefile.PL
-
-    - name: make
-      run: make
-
-    - name: make distcheck
-      run: make distcheck
+    - run: cpanm --installdeps .
+    - run: perl Makefile.PL
+    - run: make
+    - run: make distcheck
+    - run: make test
