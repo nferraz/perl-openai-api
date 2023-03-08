@@ -1,4 +1,4 @@
-package OpenAI::API::Request::Embedding;
+package OpenAI::API::Resource::Embedding;
 
 use strict;
 use warnings;
@@ -21,7 +21,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Request::Embedding - embeddings endpoint
+OpenAI::API::Resource::Embedding - embeddings endpoint
 
 =head1 DESCRIPTION
 

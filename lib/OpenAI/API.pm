@@ -8,11 +8,11 @@ use Carp qw/croak/;
 use JSON::MaybeXS;
 use LWP::UserAgent;
 
-use OpenAI::API::Request::Chat;
-use OpenAI::API::Request::Completion;
-use OpenAI::API::Request::Edit;
-use OpenAI::API::Request::Embedding;
-use OpenAI::API::Request::Moderation;
+use OpenAI::API::Resource::Chat;
+use OpenAI::API::Resource::Completion;
+use OpenAI::API::Resource::Edit;
+use OpenAI::API::Resource::Embedding;
+use OpenAI::API::Resource::Moderation;
 
 our $VERSION = 0.22;
 
@@ -39,31 +39,31 @@ sub new {
 
 sub chat {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Request::Chat->new( \%params );
+    my $request = OpenAI::API::Resource::Chat->new( \%params );
     return $self->_post( $request );
 }
 
 sub completions {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Request::Completion->new( \%params );
+    my $request = OpenAI::API::Resource::Completion->new( \%params );
     return $self->_post( $request );
 }
 
 sub edits {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Request::Edit->new( \%params );
+    my $request = OpenAI::API::Resource::Edit->new( \%params );
     return $self->_post( $request );
 }
 
 sub embeddings {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Request::Embedding->new( \%params );
+    my $request = OpenAI::API::Resource::Embedding->new( \%params );
     return $self->_post( $request );
 }
 
 sub moderations {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Request::Moderation->new( \%params );
+    my $request = OpenAI::API::Resource::Moderation->new( \%params );
     return $self->_post( $request );
 }
 
@@ -217,7 +217,7 @@ Mandatory parameters:
 
 =back
 
-More info: L<OpenAI::API::Request::Chat>
+More info: L<OpenAI::API::Resource::Chat>
 
 =head2 completions()
 
@@ -233,7 +233,7 @@ Mandatory parameters:
 
 =back
 
-More info: L<OpenAI::API::Request::Completion>
+More info: L<OpenAI::API::Resource::Completion>
 
 =head2 edits()
 
@@ -251,7 +251,7 @@ Mandatory parameters:
 
 =back
 
-More info: L<OpenAI::API::Request::Edit>
+More info: L<OpenAI::API::Resource::Edit>
 
 =head2 embeddings()
 
@@ -268,7 +268,7 @@ Mandatory parameters:
 
 =back
 
-More info: L<OpenAI::API::Request::Embedding>
+More info: L<OpenAI::API::Resource::Embedding>
 
 =head2 moderations()
 
@@ -283,7 +283,7 @@ Mandatory parameters:
 
 =back
 
-More info: L<OpenAI::API::Request::Moderation>
+More info: L<OpenAI::API::Resource::Moderation>
 
 =head1 SEE ALSO
 

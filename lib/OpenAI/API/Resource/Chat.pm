@@ -1,4 +1,4 @@
-package OpenAI::API::Request::Completion;
+package OpenAI::API::Resource::Chat;
 
 use strict;
 use warnings;
@@ -6,12 +6,11 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
-use Types::Standard qw(Bool Str Num Int Map);
+use Types::Standard qw(Bool Str Num Int Map ArrayRef HashRef);
 
-has model  => ( is => 'rw', isa => Str, required => 1, );
-has prompt => ( is => 'rw', isa => Str, required => 1, );
+has model    => ( is => 'rw', isa => Str, required => 1, default => 'gpt-3.5-turbo' );
+has messages => ( is => 'rw', isa => ArrayRef[HashRef], required => 1, );
 
-has suffix            => ( is => 'rw', isa => Str, );
 has max_tokens        => ( is => 'rw', isa => Int, );
 has temperature       => ( is => 'rw', isa => Num, );
 has top_p             => ( is => 'rw', isa => Num, );
@@ -22,11 +21,10 @@ has echo              => ( is => 'rw', isa => Bool, );
 has stop              => ( is => 'rw', isa => Str, );
 has presence_penalty  => ( is => 'rw', isa => Num, );
 has frequency_penalty => ( is => 'rw', isa => Num, );
-has best_of           => ( is => 'rw', isa => Int, );
 has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
 
-sub endpoint { 'completions' }
+sub endpoint { 'chat/completions' }
 
 1;
 
@@ -34,11 +32,11 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Request::Completion - completions endpoint
+OpenAI::API::Resource::Chat - chat endpoint
 
 =head1 DESCRIPTION
 
-Given a prompt, the model will return one or more predicted completions.
+Given a chat conversation, the model will return a chat completion response.
 
 =head1 METHODS
 
@@ -53,13 +51,9 @@ ID of the model to use.
 See L<Models overview|https://platform.openai.com/docs/models/overview>
 for a reference of them.
 
-=item * prompt
+=item * messages
 
-The prompt for the text generation.
-
-=item * suffix [optional]
-
-The suffix that comes after a completion of inserted text.
+The messages to generate chat completions for, in the chat format.
 
 =item * max_tokens [optional]
 
@@ -102,16 +96,13 @@ on their existing frequency in the text so far.
 Number between -2.0 and 2.0. Positive values penalize new tokens based
 on whether they appear in the text so far.
 
-=item * best_of [optional]
+=item * user [optional]
 
-Generates best_of completions server-side and returns the "best" (the
-one with the highest log probability per token).
-
-Use carefully and ensure that you have reasonable settings for
-C<max_tokens> and C<stop>.
+A unique identifier representing your end-user, which can help OpenAI
+to monitor and detect abuse.
 
 =back
 
 =head1 SEE ALSO
 
-OpenAI API Documentation: L<Completions|https://platform.openai.com/docs/api-reference/completions>
+OpenAI API Documentation: L<Chat|https://platform.openai.com/docs/api-reference/chat>
