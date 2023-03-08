@@ -12,9 +12,10 @@ use OpenAI::API::Resource::Chat;
 use OpenAI::API::Resource::Completion;
 use OpenAI::API::Resource::Edit;
 use OpenAI::API::Resource::Embedding;
+use OpenAI::API::Resource::Model;
 use OpenAI::API::Resource::Moderation;
 
-our $VERSION = 0.22;
+our $VERSION = 0.23;
 
 my $DEFAULT_API_BASE = 'https://api.openai.com/v1';
 my $DEFAULT_TIMEOUT  = 60;
@@ -67,11 +68,34 @@ sub moderations {
     return $self->_post( $request );
 }
 
-sub _post {
-    my ( $self, $request ) = @_;
+sub models {
+    my ( $self, %params ) = @_;
+    my $request = OpenAI::API::Resource::Model->new( \%params );
+    return $self->_get($request);
+}
 
-    my $method = $request->endpoint();
-    my %params = %{$request};
+sub _get {
+    my ( $self, $resource ) = @_;
+
+    my $method = $resource->endpoint();
+    my %params = %{$resource};
+
+    my $req = HTTP::Request->new(
+        GET => "$self->{api_base}/$method",
+        [
+            'Content-Type'  => 'application/json',
+            'Authorization' => "Bearer $self->{api_key}",
+        ],
+    );
+
+    return $self->_http_send_request($req);
+}
+
+sub _post {
+    my ( $self, $resource ) = @_;
+
+    my $method = $resource->endpoint();
+    my %params = %{$resource};
 
     my $req = HTTP::Request->new(
         POST => "$self->{api_base}/$method",
@@ -82,6 +106,12 @@ sub _post {
         encode_json(\%params),
     );
 
+    return $self->_http_send_request($req);
+}
+
+sub _http_send_request {
+    my ($self, $req) = @_;
+
     for my $attempt ( 1 .. $self->{retry} ) {
         my $res = $self->{ua}->request($req);
 
@@ -90,7 +120,7 @@ sub _post {
         } elsif ( $res->code =~ /^(?:500|503|504|599)$/ && $attempt < $self->{retry} ) {
             sleep( $self->{sleep} );
         } else {
-            die "Error retrieving '$method': " . $res->status_line;
+            die "Error: '@{[ $res->status_line ]}'";
         }
     }
 }
