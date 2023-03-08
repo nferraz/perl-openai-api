@@ -1,4 +1,4 @@
-package OpenAI::API::Request::Edit;
+package OpenAI::API::Resource::Edit;
 
 use strict;
 use warnings;
@@ -24,7 +24,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Request::Edit - edits endpoint
+OpenAI::API::Resource::Edit - edits endpoint
 
 =head1 DESCRIPTION
 

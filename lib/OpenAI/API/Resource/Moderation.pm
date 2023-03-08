@@ -1,4 +1,4 @@
-package OpenAI::API::Request::Moderation;
+package OpenAI::API::Resource::Moderation;
 
 use strict;
 use warnings;
@@ -20,7 +20,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Request::Moderation - moderations endpoint
+OpenAI::API::Resource::Moderation - moderations endpoint
 
 =head1 DESCRIPTION
 
