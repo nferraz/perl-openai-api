@@ -15,7 +15,7 @@ use OpenAI::API::Resource::Embedding;
 use OpenAI::API::Resource::Model;
 use OpenAI::API::Resource::Moderation;
 
-our $VERSION = 0.22;
+our $VERSION = 0.23;
 
 my $DEFAULT_API_BASE = 'https://api.openai.com/v1';
 my $DEFAULT_TIMEOUT  = 60;
