@@ -28,6 +28,21 @@ my @test_cases = (
             content => re('\b(?:Hello|Hi|Hey)\b'),
         },
     },
+    {
+        method => 'chat',
+        params => {
+            model       => 'gpt-3.5-turbo',
+            messages    => [ { "role" => "user", "content" => "Hello!" }, ],
+            max_tokens  => 100,
+            temperature => 0,
+            stop        => [ 'Hello', 'Hi', 'Hey' ],
+        },
+        expected_message => {
+            role    => 'assistant',
+            content => re('^\s*$'),
+        },
+    },
+
 );
 
 for my $test (@test_cases) {
