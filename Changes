@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.24    2023-03-09
+        Refactor with ResourceDispatcherRole.
+
 0.23    2023-03-08
         Add models endpoint.
 

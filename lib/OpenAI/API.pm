@@ -13,7 +13,7 @@ use namespace::clean;
 
 with 'OpenAI::API::ResourceDispatcherRole';
 
-our $VERSION = 0.23;
+our $VERSION = 0.24;
 
 my $DEFAULT_API_BASE = 'https://api.openai.com/v1';
 
