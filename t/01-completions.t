@@ -24,6 +24,28 @@ my @test_cases = (
         },
         expected_text_re => qr{\bParis\b},
     },
+    {
+        method => 'completions',
+        params => {
+            model       => 'text-davinci-003',
+            prompt      => 'What is the capital of France?',
+            max_tokens  => 100,
+            temperature => 0,
+            stop        => 'aris',
+        },
+        expected_text_re => qr{P$},
+    },
+    {
+        method => 'completions',
+        params => {
+            model       => 'text-davinci-003',
+            prompt      => 'What is the capital of France?',
+            max_tokens  => 100,
+            temperature => 0,
+            stop        => [ 'aris', 'xxx' ],
+        },
+        expected_text_re => qr{P$},
+    },
 );
 
 for my $test (@test_cases) {

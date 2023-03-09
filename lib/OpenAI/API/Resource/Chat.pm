@@ -6,7 +6,7 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
-use Types::Standard qw(Bool Str Num Int Map ArrayRef HashRef);
+use Types::Standard qw(Any Bool Int Num Str Map ArrayRef HashRef);
 
 has model    => ( is => 'rw', isa => Str, required => 1, default => 'gpt-3.5-turbo' );
 has messages => ( is => 'rw', isa => ArrayRef[HashRef], required => 1, );
@@ -18,7 +18,7 @@ has n                 => ( is => 'rw', isa => Int, );
 has stream            => ( is => 'rw', isa => Bool, );
 has logprobs          => ( is => 'rw', isa => Int, );
 has echo              => ( is => 'rw', isa => Bool, );
-has stop              => ( is => 'rw', isa => Str, );
+has stop              => ( is => 'rw', isa => Any, );
 has presence_penalty  => ( is => 'rw', isa => Num, );
 has frequency_penalty => ( is => 'rw', isa => Num, );
 has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
