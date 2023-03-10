@@ -7,7 +7,7 @@ use OpenAI::API::Resource::Chat;
 use OpenAI::API::Resource::Completion;
 use OpenAI::API::Resource::Edit;
 use OpenAI::API::Resource::Embedding;
-use OpenAI::API::Resource::Model;
+use OpenAI::API::Resource::Model::List;
 use OpenAI::API::Resource::Moderation;
 
 use Moo::Role;
@@ -46,7 +46,7 @@ sub moderations {
 
 sub models {
     my ( $self, %params ) = @_;
-    my $request = OpenAI::API::Resource::Model->new( \%params );
+    my $request = OpenAI::API::Resource::Model::List->new( \%params );
     return $self->_get($request);
 }
 
