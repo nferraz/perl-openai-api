@@ -6,6 +6,8 @@ lib/OpenAI/API/Resource/Completion.pm
 lib/OpenAI/API/Resource/Edit.pm
 lib/OpenAI/API/Resource/Embedding.pm
 lib/OpenAI/API/Resource/Model.pm
+lib/OpenAI/API/Resource/Model/List.pm
+lib/OpenAI/API/Resource/Model/Retrieve.pm
 lib/OpenAI/API/Resource/Moderation.pm
 lib/OpenAI/API/ResourceDispatcherRole.pm
 lib/OpenAI/API/UserAgentRole.pm
