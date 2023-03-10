@@ -34,8 +34,8 @@ SYNOPSIS
             size   => '1024x1024',
         );
     
-        my $models = $openai->files();
-        my $model  = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
+        my $files  = $openai->files();
+        my $file   = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
     
         my $models = $openai->models();
         my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
