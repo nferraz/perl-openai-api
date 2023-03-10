@@ -45,6 +45,9 @@ OpenAI::API - Perl interface to OpenAI API
         instruction => 'Fix the spelling mistakes',
     );
 
+    my $models = $openai->models();
+    my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
+
     my $moderations = $openai->moderations(
         model => 'text-moderation-latest',
         input => 'I want to kill them.',
@@ -187,6 +190,28 @@ Mandatory parameters:
 =back
 
 More info: L<OpenAI::API::Resource::Embedding>
+
+=head2 models()
+
+Lists the currently available models, and provides basic information
+about each one such as the owner and availability.
+
+More info: L<OpenAI::API::Resource::Model::List>
+
+=head2 model_retrieve()
+
+Retrieves a model instance, providing basic information about the model
+such as the owner and permissioning.
+
+Mandatory parameters:
+
+=over 4
+
+=item * model
+
+=back
+
+More info: L<OpenAI::API::Resource::Model::Retrieve>
 
 =head2 moderations()
 
