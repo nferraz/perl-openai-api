@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Model;
+package OpenAI::API::Resource::Model::List;
 
 use strict;
 use warnings;
@@ -16,7 +16,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Model - models endpoint
+OpenAI::API::Resource::Model::List - models endpoint
 
 =head1 DESCRIPTION
 
