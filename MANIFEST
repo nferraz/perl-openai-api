@@ -5,6 +5,8 @@ lib/OpenAI/API/Resource/Chat.pm
 lib/OpenAI/API/Resource/Completion.pm
 lib/OpenAI/API/Resource/Edit.pm
 lib/OpenAI/API/Resource/Embedding.pm
+lib/OpenAI/API/Resource/File/List.pm
+lib/OpenAI/API/Resource/File/Retrieve.pm
 lib/OpenAI/API/Resource/Image/Generation.pm
 lib/OpenAI/API/Resource/Model/List.pm
 lib/OpenAI/API/Resource/Model/Retrieve.pm
@@ -23,6 +25,7 @@ t/03-moderations.t
 t/04-chat.t
 t/05-models.t
 t/06-images.t
+t/07-files.t
 t/10-exceptions-validation.t
 t/11-exceptions-internet.t
 t/12-exceptions-timeout.t
