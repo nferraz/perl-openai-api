@@ -13,7 +13,7 @@ with 'OpenAI::API::ConfigurationRole';
 with 'OpenAI::API::UserAgentRole';
 with 'OpenAI::API::ResourceDispatcherRole';
 
-our $VERSION = 0.24;
+our $VERSION = 0.25;
 
 __END__
 
