@@ -51,8 +51,8 @@ OpenAI::API - Perl interface to OpenAI API
         size   => '1024x1024',
     );
 
-    my $models = $openai->files();
-    my $model  = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
+    my $files  = $openai->files();
+    my $file   = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
 
     my $models = $openai->models();
     my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
@@ -199,6 +199,26 @@ Mandatory parameters:
 =back
 
 More info: L<OpenAI::API::Resource::Embedding>
+
+=head2 files()
+
+Returns a list of files that belong to the user's organization.
+
+More info: L<OpenAI::API::Resource::File::List>
+
+=head2 file_retrieve()
+
+Returns information about a specific file.
+
+Mandatory parameters:
+
+=over 4
+
+=item * file_id
+
+=back
+
+More info: L<OpenAI::API::Resource::File::Retrieve>
 
 =head2 image_create()
 
