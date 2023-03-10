@@ -8,6 +8,7 @@ use OpenAI::API::Resource::Completion;
 use OpenAI::API::Resource::Edit;
 use OpenAI::API::Resource::Embedding;
 use OpenAI::API::Resource::Model::List;
+use OpenAI::API::Resource::Model::Retrieve;
 use OpenAI::API::Resource::Moderation;
 
 use Moo::Role;
@@ -47,6 +48,12 @@ sub moderations {
 sub models {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Resource::Model::List->new( \%params );
+    return $self->_get($request);
+}
+
+sub model_retrieve {
+    my ( $self, %params ) = @_;
+    my $request = OpenAI::API::Resource::Model::Retrieve->new( \%params );
     return $self->_get($request);
 }
 
