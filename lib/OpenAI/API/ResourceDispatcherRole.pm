@@ -7,6 +7,7 @@ use OpenAI::API::Resource::Chat;
 use OpenAI::API::Resource::Completion;
 use OpenAI::API::Resource::Edit;
 use OpenAI::API::Resource::Embedding;
+use OpenAI::API::Resource::Image::Generation;
 use OpenAI::API::Resource::Model::List;
 use OpenAI::API::Resource::Model::Retrieve;
 use OpenAI::API::Resource::Moderation;
@@ -36,6 +37,12 @@ sub edits {
 sub embeddings {
     my ( $self, %params ) = @_;
     my $request = OpenAI::API::Resource::Embedding->new( \%params );
+    return $self->_post($request);
+}
+
+sub image_create {
+    my ( $self, %params ) = @_;
+    my $request = OpenAI::API::Resource::Image::Generation->new( \%params );
     return $self->_post($request);
 }
 
