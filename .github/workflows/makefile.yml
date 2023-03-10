@@ -16,6 +16,7 @@ jobs:
     - uses: shogo82148/actions-setup-perl@v1
       with:
         perl-version: '5.34'
+        install-modules-args: --with-develop --with-configure
 
     - run: cpanm --installdeps .
     - run: perl Makefile.PL
