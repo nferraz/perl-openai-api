@@ -1,5 +1,6 @@
 Changes
 lib/OpenAI/API.pm
+lib/OpenAI/API/ConfigurationRole.pm
 lib/OpenAI/API/Resource/Chat.pm
 lib/OpenAI/API/Resource/Completion.pm
 lib/OpenAI/API/Resource/Edit.pm
@@ -7,6 +8,7 @@ lib/OpenAI/API/Resource/Embedding.pm
 lib/OpenAI/API/Resource/Model.pm
 lib/OpenAI/API/Resource/Moderation.pm
 lib/OpenAI/API/ResourceDispatcherRole.pm
+lib/OpenAI/API/UserAgentRole.pm
 Makefile.PL
 MANIFEST			This list of files
 META.json			Module JSON meta-data (added by MakeMaker)
