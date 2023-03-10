@@ -51,12 +51,15 @@ OpenAI::API - Perl interface to OpenAI API
         size   => '1024x1024',
     );
 
+    my $models = $openai->files();
+    my $model  = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
+
     my $models = $openai->models();
     my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
 
     my $moderations = $openai->moderations(
         model => 'text-moderation-latest',
-        input => 'I want to kill them.',
+        input => 'I like turtles',
     );
 
 =head1 DESCRIPTION
