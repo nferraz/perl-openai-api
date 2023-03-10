@@ -5,32 +5,15 @@ use warnings;
 
 use Carp qw/croak/;
 
-use Types::Standard qw(Int Num Str);
-
 use Moo;
 use strictures 2;
 use namespace::clean;
 
+with 'OpenAI::API::ConfigurationRole';
+with 'OpenAI::API::UserAgentRole';
 with 'OpenAI::API::ResourceDispatcherRole';
 
 our $VERSION = 0.24;
-
-my $DEFAULT_API_BASE = 'https://api.openai.com/v1';
-
-has api_key  => ( is => 'rw', isa => Str, default => sub { $ENV{OPENAI_API_KEY} }, required => 1 );
-has api_base => ( is => 'rw', isa => Str, default => sub { $ENV{OPENAI_API_BASE} // $DEFAULT_API_BASE }, );
-has timeout  => ( is => 'rw', isa => Num, default => sub { 60 } );
-has retry    => ( is => 'rw', isa => Int, default => sub { 3 } );
-has sleep    => ( is => 'rw', isa => Num, default => sub { 1 } );
-
-has user_agent => ( is => 'lazy' );
-
-sub _build_user_agent {
-    my ($self) = @_;
-    $self->{user_agent} = LWP::UserAgent->new( timeout => $self->timeout );
-}
-
-1;
 
 __END__
 
