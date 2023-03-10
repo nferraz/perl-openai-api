@@ -4,7 +4,7 @@ NAME
 
 VERSION
 
-    0.24
+    0.25
 
 SYNOPSIS
 
@@ -34,12 +34,15 @@ SYNOPSIS
             size   => '1024x1024',
         );
     
+        my $models = $openai->files();
+        my $model  = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
+    
         my $models = $openai->models();
         my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
     
         my $moderations = $openai->moderations(
             model => 'text-moderation-latest',
-            input => 'I want to kill them.',
+            input => 'I like turtles',
         );
 
 DESCRIPTION
