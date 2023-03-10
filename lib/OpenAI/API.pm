@@ -45,6 +45,12 @@ OpenAI::API - Perl interface to OpenAI API
         instruction => 'Fix the spelling mistakes',
     );
 
+    my $images = $openai->image_create(
+        prompt => 'A cute baby sea otter',
+        n      => 2,
+        size   => '1024x1024',
+    );
+
     my $models = $openai->models();
     my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
 
@@ -190,6 +196,20 @@ Mandatory parameters:
 =back
 
 More info: L<OpenAI::API::Resource::Embedding>
+
+=head2 image_create()
+
+Creates an image given a prompt.
+
+Mandatory parameters:
+
+=over 4
+
+=item * prompt
+
+=back
+
+More info: L<OpenAI::API::Resource::Image::Generation>
 
 =head2 models()
 
