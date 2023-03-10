@@ -12,6 +12,7 @@ use OpenAI::API::Resource::Moderation;
 
 use Moo::Role;
 use strictures 2;
+use namespace::clean;
 
 sub chat {
     my ( $self, %params ) = @_;
