@@ -6,6 +6,9 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Resource';
+
 use Types::Standard qw(Any Bool Int Num Str Map ArrayRef HashRef);
 
 has model    => ( is => 'rw', isa => Str, required => 1, default => 'gpt-3.5-turbo' );
@@ -25,6 +28,7 @@ has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
 
 sub endpoint { 'chat/completions' }
+sub method   { 'POST' }
 
 1;
 
@@ -34,9 +38,29 @@ __END__
 
 OpenAI::API::Resource::Chat - chat endpoint
 
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Resource::Chat;
+
+    my $api = OpenAI::API->new();
+
+    my $request = OpenAI::API::Resource::Chat->new(
+        model    => "gpt-3.5-turbo",
+        messages => [
+            { "role" => "system",    "content" => "You are a helpful assistant." },
+            { "role" => "user",      "content" => "Who won the world series in 2020?" },
+            { "role" => "assistant", "content" => "The Los Angeles Dodgers won the World Series in 2020." },
+            { "role" => "user",      "content" => "Where was it played?" }
+        ],
+    );
+
+    my $res = $request->dispatch($api);
+
 =head1 DESCRIPTION
 
-Given a chat conversation, the model will return a chat completion response.
+Given a chat conversation, the model will return a chat completion
+response (similar to ChatGPT).
 
 =head1 METHODS
 
@@ -53,7 +77,8 @@ for a reference of them.
 
 =item * messages
 
-The messages to generate chat completions for, in the chat format.
+The messages to generate chat completions for, in the L<chat
+format|https://platform.openai.com/docs/guides/chat/introduction>.
 
 =item * max_tokens [optional]
 

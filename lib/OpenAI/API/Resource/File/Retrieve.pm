@@ -9,12 +9,16 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Resource';
+
 has file_id => ( is => 'ro', isa => Str, required => 1 );
 
 sub endpoint {
     my ($self) = @_;
     return 'files/' . $self->{file_id};
 }
+
+sub method { 'GET' }
 
 1;
 

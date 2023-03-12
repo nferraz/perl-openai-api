@@ -6,6 +6,9 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Resource';
+
 use Types::Standard qw(Bool Str Num Int Map);
 
 has model       => ( is => 'rw', isa => Str, required => 1, );
@@ -17,6 +20,7 @@ has top_p       => ( is => 'rw', isa => Num, );
 has n           => ( is => 'rw', isa => Int, );
 
 sub endpoint { 'edits' }
+sub method   { 'POST' }
 
 1;
 
@@ -25,6 +29,21 @@ __END__
 =head1 NAME
 
 OpenAI::API::Resource::Edit - edits endpoint
+
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Resource::Edit;
+
+    my $api = OpenAI::API->new();
+
+    my $request = OpenAI::API::Resource::Edit->new(
+        model       => "text-davinci-edit-001",
+        input       => "What day of the wek is it?",
+        instruction => "Fix the spelling mistakes",
+    );
+
+    my $res = $request->dispatch($api);
 
 =head1 DESCRIPTION
 

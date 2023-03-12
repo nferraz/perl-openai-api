@@ -6,9 +6,13 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Resource';
+
 use Types::Standard qw();
 
 sub endpoint { 'files' }
+sub method   { 'GET' }
 
 1;
 

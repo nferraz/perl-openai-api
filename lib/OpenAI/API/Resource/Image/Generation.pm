@@ -9,6 +9,8 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Resource';
+
 has prompt => ( is => 'ro', isa => Str, required => 1, );
 
 has n               => ( is => 'ro', isa => Int, );
@@ -17,6 +19,7 @@ has response_format => ( is => 'ro', isa => Enum [ 'url',     'b64_json' ], );
 has user            => ( is => 'ro', isa => Str, );
 
 sub endpoint { 'images/generations' }
+sub method   { 'POST' }
 
 1;
 

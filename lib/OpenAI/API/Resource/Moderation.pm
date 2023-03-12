@@ -6,6 +6,9 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Resource';
+
 use Types::Standard qw(Bool Str Num Int Map);
 
 has input => ( is => 'rw', isa => Str, required => 1, );
@@ -13,6 +16,7 @@ has input => ( is => 'rw', isa => Str, required => 1, );
 has model => ( is => 'rw', isa => Str, );
 
 sub endpoint { 'moderations' }
+sub method   { 'POST' }
 
 1;
 
@@ -21,6 +25,19 @@ __END__
 =head1 NAME
 
 OpenAI::API::Resource::Moderation - moderations endpoint
+
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Resource::Moderation;
+
+    my $api = OpenAI::API->new();
+
+    my $request = OpenAI::API::Resource::Moderation->new(
+        input => "I like turtles",
+    );
+
+    my $res = $request->dispatch($api);
 
 =head1 DESCRIPTION
 

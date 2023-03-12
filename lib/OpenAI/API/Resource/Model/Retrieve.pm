@@ -9,12 +9,16 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Resource';
+
 has model => ( is => 'ro', isa => Str, required => 1 );
 
 sub endpoint {
     my ($self) = @_;
     return 'models/' . $self->{model};
 }
+
+sub method { 'GET' }
 
 1;
 
