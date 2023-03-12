@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Embedding;
+package OpenAI::API::Request::Embedding;
 
 use strict;
 use warnings;
@@ -6,6 +6,9 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Request';
+
 use Types::Standard qw(Bool Str Num Int Map);
 
 has model => ( is => 'rw', isa => Str, required => 1, );
@@ -14,6 +17,7 @@ has input => ( is => 'rw', isa => Str, required => 1, );
 has user => ( is => 'rw', isa => Str, );
 
 sub endpoint { 'embeddings' }
+sub method   { 'POST' }
 
 1;
 
@@ -21,7 +25,18 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Embedding - embeddings endpoint
+OpenAI::API::Request::Embedding - embeddings endpoint
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::Embedding;
+
+    my $request = OpenAI::API::Request::Embedding->new(
+        model => "text-embedding-ada-002",
+        input => "The food was delicious and the waiter...",
+    );
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

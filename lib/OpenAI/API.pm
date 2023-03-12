@@ -11,9 +11,9 @@ use namespace::clean;
 
 with 'OpenAI::API::ConfigurationRole';
 with 'OpenAI::API::UserAgentRole';
-with 'OpenAI::API::ResourceDispatcherRole';
+with 'OpenAI::API::RequestDispatcherRole';
 
-our $VERSION = 0.25;
+our $VERSION = 0.26;
 
 __END__
 
@@ -26,41 +26,21 @@ OpenAI::API - Perl interface to OpenAI API
 =head1 SYNOPSIS
 
     use OpenAI::API;
+    use OpenAI::API::Request::Chat; # or any other module
 
-    my $openai = OpenAI::API->new(); # uses OPENAI_API_KEY environment variable
+    my $config = OpenAI::API->new();
 
-    my $chat = $openai->chat(
-        model       => 'gpt-3.5-turbo',
-        messages    => [ { "role" => "user", "content" => "Hello!" }, ],
+    my $request = OpenAI::API::Request::Chat->new(
+        model    => "gpt-3.5-turbo",
+        messages => [
+            { "role" => "system",    "content" => "You are a helpful assistant." },
+            { "role" => "user",      "content" => "Who won the world series in 2020?" },
+            { "role" => "assistant", "content" => "The Los Angeles Dodgers won the World Series in 2020." },
+            { "role" => "user",      "content" => "Where was it played?" }
+        ],
     );
 
-    my $completions = $openai->completions(
-        model  => 'text-davinci-003',
-        prompt => 'What is the capital of France?',
-    );
-
-    my $edits = $openai->edits(
-        model       => 'text-davinci-edit-001',
-        input       => 'What day of the wek is it?',
-        instruction => 'Fix the spelling mistakes',
-    );
-
-    my $images = $openai->image_create(
-        prompt => 'A cute baby sea otter',
-        n      => 2,
-        size   => '1024x1024',
-    );
-
-    my $files  = $openai->files();
-    my $file   = $openai->file_retrieve( item_id => 'file-xxxxxxxxxx' );
-
-    my $models = $openai->models();
-    my $model  = $openai->model_retrieve( model => 'text-davinci-003' );
-
-    my $moderations = $openai->moderations(
-        model => 'text-moderation-latest',
-        input => 'I like turtles',
-    );
+    my $res = $request->send($config);
 
 =head1 DESCRIPTION
 
@@ -133,143 +113,31 @@ The timeout value, in seconds. Default: 60 seconds.
 
 =back
 
-=head2 chat()
+=head1 RESOURCES
 
-Given a chat conversation, the model will return a chat completion response.
+=over
 
-Mandatory parameters:
+=item * L<OpenAI::API::Request::Chat>
 
-=over 4
+=item * L<OpenAI::API::Request::Completion>
 
-=item * model
+=item * L<OpenAI::API::Request::Edit>
 
-=item * messages
+=item * L<OpenAI::API::Request::Embedding>
 
-=back
+=item * L<OpenAI::API::Request::File::List>
 
-More info: L<OpenAI::API::Resource::Chat>
+=item * L<OpenAI::API::Request::File::Retrieve>
 
-=head2 completions()
+=item * L<OpenAI::API::Request::Image::Generation>
 
-Given a prompt, the model will return one or more predicted completions.
+=item * L<OpenAI::API::Request::Model::List>
 
-Mandatory parameters:
+=item * L<OpenAI::API::Request::Model::Retrieve>
 
-=over 4
-
-=item * model
-
-=item * prompt
+=item * L<OpenAI::API::Request::Moderation>
 
 =back
-
-More info: L<OpenAI::API::Resource::Completion>
-
-=head2 edits()
-
-Creates a new edit for the provided input, instruction, and parameters.
-
-Mandatory parameters:
-
-=over 4
-
-=item * model
-
-=item * instruction
-
-=item * input [optional, but often required]
-
-=back
-
-More info: L<OpenAI::API::Resource::Edit>
-
-=head2 embeddings()
-
-Get a vector representation of a given input that can be easily consumed
-by machine learning models and algorithms.
-
-Mandatory parameters:
-
-=over 4
-
-=item * model
-
-=item * input
-
-=back
-
-More info: L<OpenAI::API::Resource::Embedding>
-
-=head2 files()
-
-Returns a list of files that belong to the user's organization.
-
-More info: L<OpenAI::API::Resource::File::List>
-
-=head2 file_retrieve()
-
-Returns information about a specific file.
-
-Mandatory parameters:
-
-=over 4
-
-=item * file_id
-
-=back
-
-More info: L<OpenAI::API::Resource::File::Retrieve>
-
-=head2 image_create()
-
-Creates an image given a prompt.
-
-Mandatory parameters:
-
-=over 4
-
-=item * prompt
-
-=back
-
-More info: L<OpenAI::API::Resource::Image::Generation>
-
-=head2 models()
-
-Lists the currently available models, and provides basic information
-about each one such as the owner and availability.
-
-More info: L<OpenAI::API::Resource::Model::List>
-
-=head2 model_retrieve()
-
-Retrieves a model instance, providing basic information about the model
-such as the owner and permissioning.
-
-Mandatory parameters:
-
-=over 4
-
-=item * model
-
-=back
-
-More info: L<OpenAI::API::Resource::Model::Retrieve>
-
-=head2 moderations()
-
-Given a input text, outputs if the model classifies it as violating
-OpenAI's content policy.
-
-Mandatory parameters:
-
-=over 4
-
-=item * input
-
-=back
-
-More info: L<OpenAI::API::Resource::Moderation>
 
 =head1 SEE ALSO
 

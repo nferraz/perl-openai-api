@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Model::Retrieve;
+package OpenAI::API::Request::Model::Retrieve;
 
 use strict;
 use warnings;
@@ -9,6 +9,8 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Request';
+
 has model => ( is => 'ro', isa => Str, required => 1 );
 
 sub endpoint {
@@ -16,13 +18,25 @@ sub endpoint {
     return 'models/' . $self->{model};
 }
 
+sub method { 'GET' }
+
 1;
 
 __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Model::Retrieve - retrieve model details
+OpenAI::API::Request::Model::Retrieve - retrieve model details
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::Model::Retrieve;
+
+    my $request = OpenAI::API::Request::Model::Retrieve->new(
+        model => 'text-davinci-003',
+    );
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

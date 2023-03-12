@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Image::Generation;
+package OpenAI::API::Request::Image::Generation;
 
 use strict;
 use warnings;
@@ -9,6 +9,8 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Request';
+
 has prompt => ( is => 'ro', isa => Str, required => 1, );
 
 has n               => ( is => 'ro', isa => Int, );
@@ -17,6 +19,7 @@ has response_format => ( is => 'ro', isa => Enum [ 'url',     'b64_json' ], );
 has user            => ( is => 'ro', isa => Str, );
 
 sub endpoint { 'images/generations' }
+sub method   { 'POST' }
 
 1;
 
@@ -24,7 +27,18 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Image::Generation - generates images from a prompt
+OpenAI::API::Request::Image::Generation - generates images from a prompt
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::Image::Generation;
+
+    my $request = OpenAI::API::Request::Image::Generation->new(
+        prompt => 'A cute baby sea otter',
+        size   => '256x256',
+    );
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

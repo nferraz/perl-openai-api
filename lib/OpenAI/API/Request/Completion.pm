@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Completion;
+package OpenAI::API::Request::Completion;
 
 use strict;
 use warnings;
@@ -6,6 +6,9 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Request';
+
 use Types::Standard qw(Any Bool Int Map Num Str);
 
 has model  => ( is => 'rw', isa => Str, required => 1, );
@@ -27,6 +30,7 @@ has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
 
 sub endpoint { 'completions' }
+sub method   { 'POST' }
 
 1;
 
@@ -34,7 +38,20 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Completion - completions endpoint
+OpenAI::API::Request::Completion - completions endpoint
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::Completion;
+
+    my $request = OpenAI::API::Request::Completion->new(
+        model       => "text-davinci-003",
+        prompt      => "Say this is a test",
+        max_tokens  => 7,
+        temperature => 0,
+    );
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

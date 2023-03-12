@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::File::Retrieve;
+package OpenAI::API::Request::File::Retrieve;
 
 use strict;
 use warnings;
@@ -9,6 +9,8 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+extends 'OpenAI::API::Request';
+
 has file_id => ( is => 'ro', isa => Str, required => 1 );
 
 sub endpoint {
@@ -16,13 +18,25 @@ sub endpoint {
     return 'files/' . $self->{file_id};
 }
 
+sub method { 'GET' }
+
 1;
 
 __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::File::Retrieve - retrieve file details
+OpenAI::API::Request::File::Retrieve - retrieve file details
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::File::Retrieve;
+
+    my $request = OpenAI::API::Request::File::List->new(
+        file_id => 'file-xxxxxxxxxx',
+    );
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

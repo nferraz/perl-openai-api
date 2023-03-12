@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::File::List;
+package OpenAI::API::Request::File::List;
 
 use strict;
 use warnings;
@@ -6,9 +6,13 @@ use warnings;
 use Moo;
 use strictures 2;
 use namespace::clean;
+
+extends 'OpenAI::API::Request';
+
 use Types::Standard qw();
 
 sub endpoint { 'files' }
+sub method   { 'GET' }
 
 1;
 
@@ -16,7 +20,15 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::File::List - files endpoint
+OpenAI::API::Request::File::List - files endpoint
+
+=head1 SYNOPSIS
+
+    use OpenAI::API::Request::File::List;
+
+    my $request = OpenAI::API::Request::File::List->new();
+
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 
