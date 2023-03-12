@@ -24,14 +24,11 @@ OpenAI::API::Request::File::List - files endpoint
 
 =head1 SYNOPSIS
 
-    use OpenAI::API;
     use OpenAI::API::Request::File::List;
-
-    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::File::List->new();
 
-    my $res = $request->dispatch($config);
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

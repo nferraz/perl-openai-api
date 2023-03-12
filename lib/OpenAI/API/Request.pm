@@ -15,8 +15,11 @@ sub method {
     die "Must be implemented";
 }
 
-sub dispatch {
+sub send {
     my ($self, $api) = @_;
+
+    $api //= OpenAI::API->new();
+
     return
           $self->method eq 'POST' ? $self->_post($api)
         : $self->method eq 'GET'  ? $self->_get($api)

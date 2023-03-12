@@ -23,7 +23,7 @@ SYNOPSIS
             ],
         );
     
-        my $res = $request->dispatch($config);
+        my $res = $request->send($config);
 
 DESCRIPTION
 

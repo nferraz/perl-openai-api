@@ -30,16 +30,13 @@ OpenAI::API::Request::File::Retrieve - retrieve file details
 
 =head1 SYNOPSIS
 
-    use OpenAI::API;
     use OpenAI::API::Request::File::Retrieve;
-
-    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::File::List->new(
         file_id => 'file-xxxxxxxxxx',
     );
 
-    my $res = $request->dispatch($config);
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

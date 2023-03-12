@@ -40,7 +40,7 @@ OpenAI::API - Perl interface to OpenAI API
         ],
     );
 
-    my $res = $request->dispatch($config);
+    my $res = $request->send($config);
 
 =head1 DESCRIPTION
 

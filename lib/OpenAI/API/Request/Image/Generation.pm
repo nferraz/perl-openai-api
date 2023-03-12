@@ -31,18 +31,14 @@ OpenAI::API::Request::Image::Generation - generates images from a prompt
 
 =head1 SYNOPSIS
 
-    use OpenAI::API;
     use OpenAI::API::Request::Image::Generation;
-
-    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Image::Generation->new(
         prompt => 'A cute baby sea otter',
-        n      => 2,
-        size   => '1024x1024',
+        size   => '256x256',
     );
 
-    my $res = $request->dispatch($config);
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

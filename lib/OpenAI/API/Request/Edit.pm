@@ -32,10 +32,7 @@ OpenAI::API::Request::Edit - edits endpoint
 
 =head1 SYNOPSIS
 
-    use OpenAI::API;
     use OpenAI::API::Request::Edit;
-
-    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Edit->new(
         model       => "text-davinci-edit-001",
@@ -43,7 +40,7 @@ OpenAI::API::Request::Edit - edits endpoint
         instruction => "Fix the spelling mistakes",
     );
 
-    my $res = $request->dispatch($config);
+    my $res = $request->send();
 
 =head1 DESCRIPTION
 

@@ -26,7 +26,7 @@ for my $sub_name ( keys %module_dispatcher ) {
     *{"OpenAI::API::RequestDispatcherRole::$sub_name"} = sub {
         my ( $self, %params ) = @_;
         my $request = $module->new( \%params );
-        return $request->dispatch($self);
+        return $request->send($self);
     };
 }
 
