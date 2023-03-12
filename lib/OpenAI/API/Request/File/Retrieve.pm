@@ -28,6 +28,19 @@ __END__
 
 OpenAI::API::Request::File::Retrieve - retrieve file details
 
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Request::File::Retrieve;
+
+    my $config = OpenAI::API->new();
+
+    my $request = OpenAI::API::Request::File::List->new(
+        file_id => 'file-xxxxxxxxxx',
+    );
+
+    my $res = $request->dispatch($config);
+
 =head1 DESCRIPTION
 
 Returns information about a specific file.

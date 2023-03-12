@@ -28,7 +28,7 @@ OpenAI::API - Perl interface to OpenAI API
     use OpenAI::API;
     use OpenAI::API::Request::Chat; # or any other module
 
-    my $api = OpenAI::API->new();
+    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Chat->new(
         model    => "gpt-3.5-turbo",
@@ -40,7 +40,7 @@ OpenAI::API - Perl interface to OpenAI API
         ],
     );
 
-    my $res = $request->dispatch($api);
+    my $res = $request->dispatch($config);
 
 =head1 DESCRIPTION
 

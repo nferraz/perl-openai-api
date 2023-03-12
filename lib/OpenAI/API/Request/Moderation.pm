@@ -31,13 +31,13 @@ OpenAI::API::Request::Moderation - moderations endpoint
     use OpenAI::API;
     use OpenAI::API::Request::Moderation;
 
-    my $api = OpenAI::API->new();
+    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Moderation->new(
         input => "I like turtles",
     );
 
-    my $res = $request->dispatch($api);
+    my $res = $request->dispatch($config);
 
 =head1 DESCRIPTION
 

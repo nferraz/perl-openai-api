@@ -45,7 +45,7 @@ OpenAI::API::Request::Completion - completions endpoint
     use OpenAI::API;
     use OpenAI::API::Request::Completion;
 
-    my $api = OpenAI::API->new();
+    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Completion->new(
         model       => "text-davinci-003",
@@ -54,7 +54,7 @@ OpenAI::API::Request::Completion - completions endpoint
         temperature => 0,
     );
 
-    my $res = $request->dispatch();
+    my $res = $request->dispatch($config);
 
 =head1 DESCRIPTION
 

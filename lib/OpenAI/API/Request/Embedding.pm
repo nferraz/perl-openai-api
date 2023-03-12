@@ -32,14 +32,14 @@ OpenAI::API::Request::Embedding - embeddings endpoint
     use OpenAI::API;
     use OpenAI::API::Request::Embedding;
 
-    my $api = OpenAI::API->new();
+    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Embedding->new(
         model => "text-embedding-ada-002",
         input => "The food was delicious and the waiter...",
     );
 
-    my $res = $request->dispatch($api);
+    my $res = $request->dispatch($config);
 
 =head1 DESCRIPTION
 

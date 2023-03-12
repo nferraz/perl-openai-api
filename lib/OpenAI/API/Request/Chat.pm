@@ -43,7 +43,7 @@ OpenAI::API::Request::Chat - chat endpoint
     use OpenAI::API;
     use OpenAI::API::Request::Chat;
 
-    my $api = OpenAI::API->new();
+    my $config = OpenAI::API->new();
 
     my $request = OpenAI::API::Request::Chat->new(
         model    => "gpt-3.5-turbo",
@@ -55,7 +55,7 @@ OpenAI::API::Request::Chat - chat endpoint
         ],
     );
 
-    my $res = $request->dispatch($api);
+    my $res = $request->dispatch($config);
 
 =head1 DESCRIPTION
 

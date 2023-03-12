@@ -22,6 +22,17 @@ __END__
 
 OpenAI::API::Request::File::List - files endpoint
 
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Request::File::List;
+
+    my $config = OpenAI::API->new();
+
+    my $request = OpenAI::API::Request::File::List->new();
+
+    my $res = $request->dispatch($config);
+
 =head1 DESCRIPTION
 
 Returns a list of files that belong to the user's organization.

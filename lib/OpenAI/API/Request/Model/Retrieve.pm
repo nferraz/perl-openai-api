@@ -28,6 +28,19 @@ __END__
 
 OpenAI::API::Request::Model::Retrieve - retrieve model details
 
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Request::Model::Retrieve;
+
+    my $config = OpenAI::API->new();
+
+    my $request = OpenAI::API::Request::Model::Retrieve->new(
+        model => 'text-davinci-003',
+    );
+
+    my $res = $request->dispatch($config);
+
 =head1 DESCRIPTION
 
 Retrieves a model instance, providing basic information about the model

@@ -22,6 +22,17 @@ __END__
 
 OpenAI::API::Request::Model::List - models endpoint
 
+=head1 SYNOPSIS
+
+    use OpenAI::API;
+    use OpenAI::API::Request::Model::List;
+
+    my $config = OpenAI::API->new();
+
+    my $request = OpenAI::API::Request::Model::List->new();
+
+    my $res = $request->dispatch($config);
+
 =head1 DESCRIPTION
 
 Lists the currently available models, and provides basic information
