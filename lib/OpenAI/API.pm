@@ -11,7 +11,7 @@ use namespace::clean;
 
 with 'OpenAI::API::ConfigurationRole';
 with 'OpenAI::API::UserAgentRole';
-with 'OpenAI::API::ResourceDispatcherRole';
+with 'OpenAI::API::RequestDispatcherRole';
 
 our $VERSION = 0.25;
 
@@ -26,11 +26,11 @@ OpenAI::API - Perl interface to OpenAI API
 =head1 SYNOPSIS
 
     use OpenAI::API;
-    use OpenAI::API::Resource::Chat; # or any other module
+    use OpenAI::API::Request::Chat; # or any other module
 
     my $api = OpenAI::API->new();
 
-    my $request = OpenAI::API::Resource::Chat->new(
+    my $request = OpenAI::API::Request::Chat->new(
         model    => "gpt-3.5-turbo",
         messages => [
             { "role" => "system",    "content" => "You are a helpful assistant." },
@@ -117,25 +117,25 @@ The timeout value, in seconds. Default: 60 seconds.
 
 =over
 
-=item * L<OpenAI::API::Resource::Chat>
+=item * L<OpenAI::API::Request::Chat>
 
-=item * L<OpenAI::API::Resource::Completion>
+=item * L<OpenAI::API::Request::Completion>
 
-=item * L<OpenAI::API::Resource::Edit>
+=item * L<OpenAI::API::Request::Edit>
 
-=item * L<OpenAI::API::Resource::Embedding>
+=item * L<OpenAI::API::Request::Embedding>
 
-=item * L<OpenAI::API::Resource::File::List>
+=item * L<OpenAI::API::Request::File::List>
 
-=item * L<OpenAI::API::Resource::File::Retrieve>
+=item * L<OpenAI::API::Request::File::Retrieve>
 
-=item * L<OpenAI::API::Resource::Image::Generation>
+=item * L<OpenAI::API::Request::Image::Generation>
 
-=item * L<OpenAI::API::Resource::Model::List>
+=item * L<OpenAI::API::Request::Model::List>
 
-=item * L<OpenAI::API::Resource::Model::Retrieve>
+=item * L<OpenAI::API::Request::Model::Retrieve>
 
-=item * L<OpenAI::API::Resource::Moderation>
+=item * L<OpenAI::API::Request::Moderation>
 
 =back
 

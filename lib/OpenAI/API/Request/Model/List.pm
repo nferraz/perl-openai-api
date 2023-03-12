@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Model::List;
+package OpenAI::API::Request::Model::List;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
-extends 'OpenAI::API::Resource';
+extends 'OpenAI::API::Request';
 
 use Types::Standard qw();
 
@@ -20,7 +20,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Model::List - models endpoint
+OpenAI::API::Request::Model::List - models endpoint
 
 =head1 DESCRIPTION
 

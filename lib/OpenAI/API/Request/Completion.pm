@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Completion;
+package OpenAI::API::Request::Completion;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
-extends 'OpenAI::API::Resource';
+extends 'OpenAI::API::Request';
 
 use Types::Standard qw(Any Bool Int Map Num Str);
 
@@ -38,16 +38,16 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Completion - completions endpoint
+OpenAI::API::Request::Completion - completions endpoint
 
 =head1 SYNOPSIS
 
     use OpenAI::API;
-    use OpenAI::API::Resource::Completion;
+    use OpenAI::API::Request::Completion;
 
     my $api = OpenAI::API->new();
 
-    my $request = OpenAI::API::Resource::Completion->new(
+    my $request = OpenAI::API::Request::Completion->new(
         model       => "text-davinci-003",
         prompt      => "Say this is a test",
         max_tokens  => 7,

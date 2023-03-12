@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Edit;
+package OpenAI::API::Request::Edit;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
-extends 'OpenAI::API::Resource';
+extends 'OpenAI::API::Request';
 
 use Types::Standard qw(Bool Str Num Int Map);
 
@@ -28,16 +28,16 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Edit - edits endpoint
+OpenAI::API::Request::Edit - edits endpoint
 
 =head1 SYNOPSIS
 
     use OpenAI::API;
-    use OpenAI::API::Resource::Edit;
+    use OpenAI::API::Request::Edit;
 
     my $api = OpenAI::API->new();
 
-    my $request = OpenAI::API::Resource::Edit->new(
+    my $request = OpenAI::API::Request::Edit->new(
         model       => "text-davinci-edit-001",
         input       => "What day of the wek is it?",
         instruction => "Fix the spelling mistakes",

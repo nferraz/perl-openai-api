@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Chat;
+package OpenAI::API::Request::Chat;
 
 use strict;
 use warnings;
@@ -7,7 +7,7 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
-extends 'OpenAI::API::Resource';
+extends 'OpenAI::API::Request';
 
 use Types::Standard qw(Any Bool Int Num Str Map ArrayRef HashRef);
 
@@ -36,16 +36,16 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Chat - chat endpoint
+OpenAI::API::Request::Chat - chat endpoint
 
 =head1 SYNOPSIS
 
     use OpenAI::API;
-    use OpenAI::API::Resource::Chat;
+    use OpenAI::API::Request::Chat;
 
     my $api = OpenAI::API->new();
 
-    my $request = OpenAI::API::Resource::Chat->new(
+    my $request = OpenAI::API::Request::Chat->new(
         model    => "gpt-3.5-turbo",
         messages => [
             { "role" => "system",    "content" => "You are a helpful assistant." },

@@ -1,4 +1,4 @@
-package OpenAI::API::Resource::Image::Generation;
+package OpenAI::API::Request::Image::Generation;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
-extends 'OpenAI::API::Resource';
+extends 'OpenAI::API::Request';
 
 has prompt => ( is => 'ro', isa => Str, required => 1, );
 
@@ -27,7 +27,7 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Resource::Image::Generation - generates images from a prompt
+OpenAI::API::Request::Image::Generation - generates images from a prompt
 
 =head1 DESCRIPTION
 

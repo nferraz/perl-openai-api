@@ -1,4 +1,4 @@
-package OpenAI::API::Resource;
+package OpenAI::API::Request;
 
 use JSON::MaybeXS;
 use LWP::UserAgent;
