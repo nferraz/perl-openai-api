@@ -13,7 +13,7 @@ with 'OpenAI::API::ConfigurationRole';
 with 'OpenAI::API::UserAgentRole';
 with 'OpenAI::API::RequestDispatcherRole';
 
-our $VERSION = 0.26;
+our $VERSION = 0.27;
 
 __END__
 
@@ -26,9 +26,9 @@ OpenAI::API - Perl interface to OpenAI API
 =head1 SYNOPSIS
 
     use OpenAI::API;
-    use OpenAI::API::Request::Chat; # or any other module
+    use OpenAI::API::Request::Chat;
 
-    my $config = OpenAI::API->new();
+    my $config = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
 
     my $request = OpenAI::API::Request::Chat->new(
         model    => "gpt-3.5-turbo",
