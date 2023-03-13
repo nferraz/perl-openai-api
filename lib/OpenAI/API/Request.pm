@@ -7,6 +7,8 @@ use Moo;
 use strictures 2;
 use namespace::clean;
 
+use OpenAI::API;
+
 sub endpoint {
     die "Must be implemented";
 }
