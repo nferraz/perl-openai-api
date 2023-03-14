@@ -13,12 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: shogo82148/actions-setup-perl@v1
-      with:
-        perl-version: '5.34'
-        install-modules-args: --with-develop --with-configure
 
-    - run: cpanm --installdeps .
+    - run: sudo apt-get update -qq && sudo apt-get install -qq gcc libc-dev curl make cpanminus
+    - run: cpanm --sudo --notest --installdeps .
     - run: perl Makefile.PL
     - run: make
     - run: make distcheck
