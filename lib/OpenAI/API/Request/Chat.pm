@@ -54,7 +54,7 @@ OpenAI::API::Request::Chat - chat endpoint
 
     my $res = $request->send();
 
-    my $text = $res->{choices}[0]{message};
+    my $message = $res->{choices}[0]{message};
 
 =head1 DESCRIPTION
 
