@@ -172,3 +172,72 @@ sub _async_http_send_request {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+OpenAI::API::Request - Base module for making requests to the OpenAI API
+
+=head1 SYNOPSIS
+
+This module is a base module for making HTTP requests to the OpenAI
+API. It should not be used directly.
+
+=head1 DESCRIPTION
+
+This module provides a base class for creating request objects for the
+OpenAI API. It includes methods for sending synchronous and asynchronous
+requests, with support for HTTP GET and POST methods.
+
+=head1 METHODS
+
+=head2 endpoint
+
+This method must be implemented by subclasses. It should return the API
+endpoint for the specific request.
+
+=head2 method
+
+This method must be implemented by subclasses. It should return the HTTP
+method for the specific request.
+
+=head2 send
+
+    my $response = $request->send($api);
+
+Send a request synchronously. The C<$api> parameter is optional; if not
+provided, a new L<OpenAI::API> object will be created.
+
+=head2 send_async
+
+Send a request asynchronously. The C<$api> parameter is optional; if
+not provided, a new L<OpenAI::API> object will be created. Returns a
+L<Promises> promise that will be resolved with the decoded JSON response.
+
+Here's an example usage:
+
+    my $cv = AnyEvent->condvar;    # Create a condition variable
+
+    $request->send_async()->then(
+        sub {
+            my $response_data = shift;
+            print "Response data: " . Dumper($response_data);
+        }
+    )->catch(
+        sub {
+            my $error = shift;
+            print "$error\n";
+        }
+    )->finally(
+        sub {
+            print "Request completed\n";
+            $cv->send();    # Signal the condition variable when the request is completed
+        }
+    );
+
+    $cv->recv;              # Keep the script running until the request is completed.
+
+=head1 SEE ALSO
+
+L<OpenAI::API>
