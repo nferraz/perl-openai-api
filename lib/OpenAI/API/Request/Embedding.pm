@@ -57,6 +57,13 @@ by machine learning models and algorithms.
 
 =back
 
+=head2 send()
+
+=head2 send($openai_config)
+
+Sends the request and returns a data structured similar to the one
+documented in the API reference.
+
 =head1 SEE ALSO
 
-OpenAI API Documentation: L<Embeddings|https://platform.openai.com/docs/api-reference/embeddings>
+OpenAI API Reference: L<Embeddings|https://platform.openai.com/docs/api-reference/embeddings>

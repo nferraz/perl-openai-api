@@ -29,7 +29,7 @@ for my $module (@test_cases) {
     my $code = _extract_code_from_synopsis($module);
 
     if ($code) {
-        eval($code);
+        eval($code) or diag $@;
         ok( !$@, 'eval(SYNOPSIS)' );
     } else {
         fail('synopsis code not found');

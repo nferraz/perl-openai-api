@@ -42,6 +42,8 @@ OpenAI::API - Perl interface to OpenAI API
 
     my $res = $request->send($config);
 
+    my $message = $res->{choices}[0]{message};
+
 =head1 DESCRIPTION
 
 OpenAI::API is a Perl module that provides an interface to the OpenAI API,
