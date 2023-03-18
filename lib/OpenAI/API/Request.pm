@@ -20,7 +20,7 @@ sub method {
 }
 
 sub send {
-    my ($self, $api) = @_;
+    my ( $self, $api ) = @_;
 
     $api //= OpenAI::API->new();
 
@@ -31,75 +31,63 @@ sub send {
 }
 
 sub _get {
-    my ($self, $api) = @_;
+    my ( $self, $api ) = @_;
 
-    my $endpoint = $self->endpoint();
-    my %params   = %{$self};
-
-    my $req = HTTP::Request->new(
-        GET => "$api->{api_base}/$endpoint",
-        [
-            'Content-Type'  => 'application/json',
-            'Authorization' => "Bearer $api->{api_key}",
-        ],
-    );
-
-    my $cv = AnyEvent->condvar;
-
-    $self->_async_http_send_request( $api, $req )->then(
-        sub {
-            $cv->send(@_);
-        }
-    )->catch(
-        sub {
-            $cv->send(@_);
-        }
-    );
-
-    my $res = $cv->recv();
-
-    if ( !$res->is_success ) {
-        die "Error: '@{[ $res->status_line ]}'";
-    }
-
-    return decode_json( $res->decoded_content )
-
+    my $req = $self->_create_request( $api, 'GET' );
+    return $self->_send_request( $api, $req );
 }
 
 sub _post {
-    my ($self, $api) = @_;
+    my ( $self, $api ) = @_;
+
+    my $req = $self->_create_request( $api, 'POST', encode_json( { %{$self} } ) );
+    return $self->_send_request( $api, $req );
+}
+
+sub _create_request {
+    my ( $self, $api, $method, $content ) = @_;
 
     my $endpoint = $self->endpoint();
-    my %params   = %{$self};
-
-    my $req = HTTP::Request->new(
-        POST => "$api->{api_base}/$endpoint",
-        [
-            'Content-Type'  => 'application/json',
-            'Authorization' => "Bearer $api->{api_key}",
-        ],
-        encode_json( \%params ),
+    my $req      = HTTP::Request->new(
+        $method => "$api->{api_base}/$endpoint",
+        $self->_request_headers($api),
+        $content,
     );
 
-    my $cv = AnyEvent->condvar;
+    return $req;
+}
+
+sub _request_headers {
+    my ( $self, $api ) = @_;
+
+    return [
+        'Content-Type'  => 'application/json',
+        'Authorization' => "Bearer $api->{api_key}",
+    ];
+}
+
+sub _send_request {
+    my ( $self, $api, $req ) = @_;
+
+    my $cond_var = AnyEvent->condvar;
 
     $self->_async_http_send_request( $api, $req )->then(
         sub {
-            $cv->send(@_);
+            $cond_var->send(@_);
         }
     )->catch(
         sub {
-            $cv->send(@_);
+            $cond_var->send(@_);
         }
     );
 
-    my ($res) = $cv->recv();
+    my $res = $cond_var->recv();
 
     if ( !$res->is_success ) {
         die "Error: '@{[ $res->status_line ]}'";
     }
 
-    return decode_json( $res->decoded_content )
+    return decode_json( $res->decoded_content );
 }
 
 sub _http_send_request {
