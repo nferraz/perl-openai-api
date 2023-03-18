@@ -1,7 +1,9 @@
 package OpenAI::API::Request;
 
+use AnyEvent;
 use JSON::MaybeXS;
 use LWP::UserAgent;
+use Promises qw/deferred/;
 
 use Moo;
 use strictures 2;
@@ -42,7 +44,26 @@ sub _get {
         ],
     );
 
-    return $self->_http_send_request($api, $req);
+    my $cv = AnyEvent->condvar;
+
+    $self->_async_http_send_request( $api, $req )->then(
+        sub {
+            $cv->send(@_);
+        }
+    )->catch(
+        sub {
+            $cv->send(@_);
+        }
+    );
+
+    my $res = $cv->recv();
+
+    if ( !$res->is_success ) {
+        die "Error: '@{[ $res->status_line ]}'";
+    }
+
+    return decode_json( $res->decoded_content )
+
 }
 
 sub _post {
@@ -60,7 +81,25 @@ sub _post {
         encode_json( \%params ),
     );
 
-    return $self->_http_send_request($api, $req);
+    my $cv = AnyEvent->condvar;
+
+    $self->_async_http_send_request( $api, $req )->then(
+        sub {
+            $cv->send(@_);
+        }
+    )->catch(
+        sub {
+            $cv->send(@_);
+        }
+    );
+
+    my ($res) = $cv->recv();
+
+    if ( !$res->is_success ) {
+        die "Error: '@{[ $res->status_line ]}'";
+    }
+
+    return decode_json( $res->decoded_content )
 }
 
 sub _http_send_request {
@@ -70,13 +109,32 @@ sub _http_send_request {
         my $res = $api->user_agent->request($req);
 
         if ( $res->is_success ) {
-            return decode_json( $res->decoded_content );
+            return $res;
         } elsif ( $res->code =~ /^(?:500|503|504|599)$/ && $attempt < $api->{retry} ) {
             sleep( $api->{sleep} );
         } else {
-            die "Error: '@{[ $res->status_line ]}'";
+            return $res;
         }
     }
+}
+
+sub _async_http_send_request {
+    my ( $self, $api, $req ) = @_;
+
+    my $d = deferred;
+
+    AnyEvent::postpone {
+        eval {
+            my $res = $self->_http_send_request( $api, $req );
+            $d->resolve($res);
+            1;
+        } or do {
+            my $err = $@;
+            $d->reject($err);
+        };
+    };
+
+    return $d->promise();
 }
 
 1;
