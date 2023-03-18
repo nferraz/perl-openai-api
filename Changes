@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.28    2023-03-18
+        Asynchronous requests with AnyEvent and Promises.
+
 0.27    2023-03-13
         Bugfix.
 
