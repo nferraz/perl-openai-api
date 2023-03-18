@@ -24,6 +24,8 @@ SYNOPSIS
         );
     
         my $res = $request->send($config);
+    
+        my $message = $res->{choices}[0]{message};
 
 DESCRIPTION
 
