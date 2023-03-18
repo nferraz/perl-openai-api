@@ -74,9 +74,9 @@ OpenAI::API - Perl interface to OpenAI API
         model    => "gpt-3.5-turbo",
         messages => [
             { "role" => "system",    "content" => "You are a helpful assistant." },
-            { "role" => "user",      "content" => "Who won the world series in 2020?" },
-            { "role" => "assistant", "content" => "The Los Angeles Dodgers won the World Series in 2020." },
-            { "role" => "user",      "content" => "Where was it played?" }
+            { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
+            { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
+            { "role" => "user",      "content" => "How do I use this module?" },
         ],
     );
 
@@ -88,9 +88,9 @@ OpenAI::API - Perl interface to OpenAI API
         model    => "gpt-3.5-turbo",
         messages => [
             { "role" => "system",    "content" => "You are a helpful assistant." },
-            { "role" => "user",      "content" => "Who won the world series in 2020?" },
-            { "role" => "assistant", "content" => "The Los Angeles Dodgers won the World Series in 2020." },
-            { "role" => "user",      "content" => "Where was it played?" }
+            { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
+            { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
+            { "role" => "user",      "content" => "How do I use this module?" },
         ],
     );
 
@@ -144,9 +144,18 @@ perldoc command.
 
 =head1 METHODS
 
+OpenAI::API acts as a high-level interface for the OpenAI API, handling
+different actions while utilizing the configuration class.
+
 =head2 new()
 
 Creates a new OpenAI::API object.
+
+=over 4
+
+=item * config [optional]
+
+An OpenAI::API::Config object including the following properties:
 
 =over 4
 
@@ -168,6 +177,48 @@ The api_base URL for the OpenAI API. Default: 'https://api.openai.com/v1/'.
 The timeout value, in seconds. Default: 60 seconds.
 
 =back
+
+=back
+
+=head2 chat()
+
+L<Chat|OpenAI::API::Request::Chat> request.
+
+=head2 completions()
+
+L<Completion|OpenAI::API::Request::Completion> request.
+
+=head2 edits()
+
+L<Edit|OpenAI::API::Request::Edit> request.
+
+=head2 embeddings()
+
+L<Embedding|OpenAI::API::Request::Embedding> request.
+
+=head2 files()
+
+L<File List|OpenAI::API::Request::File::List> request.
+
+=head2 file_retrieve()
+
+L<File Retrieve|OpenAI::API::Request::File::Retrieve> request.
+
+=head2 image_create()
+
+L<Image Generation|OpenAI::API::Request::Image::Generation> request.
+
+=head2 models()
+
+L<Model List|OpenAI::API::Request::Model::List> request.
+
+=head2 model_retrieve()
+
+L<Model Retrieve|OpenAI::API::Request::Model::Retrieve> request.
+
+=head2 moderations()
+
+L<Moderation|OpenAI::API::Request::Moderation> request.
 
 =head1 RESOURCES
 

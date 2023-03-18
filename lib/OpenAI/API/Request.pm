@@ -261,16 +261,14 @@ method for the specific request.
 
 =head2 send
 
-    my $response = $request->send($config);
+Send a request synchronously.
 
-Send a request synchronously. The C<$config> parameter is optional; if not
-provided, a new L<OpenAI::API::Config> object will be created.
+    my $response = $request->send();
 
 =head2 send_async
 
-Send a request asynchronously. The C<$config> parameter is optional; if
-not provided, a new L<OpenAI::API::Config> object will be created. Returns a
-L<Promises> promise that will be resolved with the decoded JSON response.
+Send a request asynchronously. Returns a L<Promises> promise that will
+be resolved with the decoded JSON response.
 
 Here's an example usage:
 

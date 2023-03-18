@@ -83,8 +83,6 @@ An alternative to sampling with temperature.
 
 =head2 send()
 
-=head2 send($openai_config)
-
 Sends the request and returns a data structured similar to the one
 documented in the API reference.
 

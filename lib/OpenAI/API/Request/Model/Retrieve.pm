@@ -57,8 +57,6 @@ such as the owner and permissioning.
 
 =head2 send()
 
-=head2 send($openai_config)
-
 Sends the request and returns a data structured similar to the one
 documented in the API reference.
 
