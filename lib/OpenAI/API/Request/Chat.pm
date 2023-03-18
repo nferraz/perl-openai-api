@@ -54,6 +54,8 @@ OpenAI::API::Request::Chat - chat endpoint
 
     my $res = $request->send();
 
+    my $text = $res->{choices}[0]{message};
+
 =head1 DESCRIPTION
 
 Given a chat conversation, the model will return a chat completion
@@ -125,6 +127,13 @@ to monitor and detect abuse.
 
 =back
 
+=head2 send()
+
+=head2 send($openai_config)
+
+Sends the request and returns a data structured similar to the one
+documented in the API reference.
+
 =head1 SEE ALSO
 
-OpenAI API Documentation: L<Chat|https://platform.openai.com/docs/api-reference/chat>
+OpenAI API Reference: L<Chat|https://platform.openai.com/docs/api-reference/chat>
