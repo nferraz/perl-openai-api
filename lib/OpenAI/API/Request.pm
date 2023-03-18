@@ -44,6 +44,31 @@ sub _post {
     return $self->_send_request( $api, $req );
 }
 
+sub send_async {
+    my ( $self, $api ) = @_;
+
+    $api //= OpenAI::API->new();
+
+    return
+          $self->method eq 'POST' ? $self->_post_async($api)
+        : $self->method eq 'GET'  ? $self->_get_async($api)
+        :                           die "Invalid method";
+}
+
+sub _get_async {
+    my ( $self, $api ) = @_;
+
+    my $req = $self->_create_request( $api, 'GET' );
+    return $self->_send_request_async( $api, $req );
+}
+
+sub _post_async {
+    my ( $self, $api ) = @_;
+
+    my $req = $self->_create_request( $api, 'POST', encode_json( { %{$self} } ) );
+    return $self->_send_request_async( $api, $req );
+}
+
 sub _create_request {
     my ( $self, $api, $method, $content ) = @_;
 
@@ -88,6 +113,27 @@ sub _send_request {
     }
 
     return decode_json( $res->decoded_content );
+}
+
+sub _send_request_async {
+    my ( $self, $api, $req ) = @_;
+
+    return $self->_async_http_send_request( $api, $req )->then(
+        sub {
+            my $res = shift;
+
+            if ( !$res->is_success ) {
+                die "Error: '@{[ $res->status_line ]}'";
+            }
+
+            return decode_json( $res->decoded_content );
+        }
+    )->catch(
+        sub {
+            my $err = shift;
+            die $err;
+        }
+    );
 }
 
 sub _http_send_request {
