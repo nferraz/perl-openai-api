@@ -1,7 +1,8 @@
 Revision history for OpenAI-API
 
-0.29    2023-03-18
-        Implement method send_async
+0.30    2023-03-20
+        Implement method send_async.
+        Refactor configuration.
 
 0.28    2023-03-18
         Asynchronous requests with AnyEvent and Promises.

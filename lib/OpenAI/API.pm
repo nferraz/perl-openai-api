@@ -7,7 +7,7 @@ use Carp ();
 
 use OpenAI::API::Config;
 
-our $VERSION = 0.29;
+our $VERSION = 0.30;
 
 BEGIN {
     my %module_dispatcher = (
