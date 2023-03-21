@@ -132,6 +132,12 @@ to monitor and detect abuse.
 Sends the request and returns a data structured similar to the one
 documented in the API reference.
 
+=head2 send_async()
+
+Send a request asynchronously. Returns a L<Promises> promise that will
+be resolved with the decoded JSON response. See L<OpenAI::API::Request>
+for an example.
+
 =head1 SEE ALSO
 
 OpenAI API Reference: L<Chat|https://platform.openai.com/docs/api-reference/chat>
