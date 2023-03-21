@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.31    2023-03-21
+        Document method send_async.
+
 0.30    2023-03-20
         Implement method send_async.
         Refactor configuration.
