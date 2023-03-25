@@ -1,6 +1,7 @@
 Changes
 lib/OpenAI/API.pm
 lib/OpenAI/API/Config.pm
+lib/OpenAI/API/Error.pm
 lib/OpenAI/API/Request.pm
 lib/OpenAI/API/Request/Chat.pm
 lib/OpenAI/API/Request/Completion.pm

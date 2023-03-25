@@ -10,6 +10,7 @@ use strictures 2;
 use namespace::clean;
 
 use OpenAI::API::Config;
+use OpenAI::API::Error;
 
 has 'config' => (
     is      => 'ro',
@@ -136,7 +137,11 @@ sub _send_request {
     my $res = $cond_var->recv();
 
     if ( !$res->is_success ) {
-        die "Error: '@{[ $res->status_line ]}'";
+        OpenAI::API::Error->throw(
+            message  => "Error: '@{[ $res->status_line ]}'",
+            request  => $req,
+            response => $res,
+        );
     }
 
     return decode_json( $res->decoded_content );
@@ -150,7 +155,11 @@ sub _send_request_async {
             my $res = shift;
 
             if ( !$res->is_success ) {
-                die "Error: '@{[ $res->status_line ]}'";
+                OpenAI::API::Error->throw(
+                    message  => "Error: '@{[ $res->status_line ]}'",
+                    request  => $req,
+                    response => $res,
+                );
             }
 
             return decode_json( $res->decoded_content );
