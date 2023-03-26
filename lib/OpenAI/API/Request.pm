@@ -51,14 +51,22 @@ sub request_params {
 sub send {
     my $self = shift;
 
-    if (@_) {
+    if ( @_ == 1 ) {
         warn "Sending config via send is deprecated. More info: perldoc OpenAI::API::Config\n";
     }
 
-    return
+    my %args = @_;
+
+    my $res =
           $self->method eq 'POST' ? $self->_post()
         : $self->method eq 'GET'  ? $self->_get()
         :                           die "Invalid method";
+
+    if ( $args{http_response} ) {
+        return $res;
+    }
+
+    return decode_json( $res->decoded_content );
 }
 
 sub _get {
@@ -76,12 +84,26 @@ sub _post {
 }
 
 sub send_async {
-    my ($self) = @_;
+    my ( $self, %args ) = @_;
 
-    return
+    my $res_promise =
           $self->method eq 'POST' ? $self->_post_async()
         : $self->method eq 'GET'  ? $self->_get_async()
         :                           die "Invalid method";
+
+    if ( $args{http_response} ) {
+        return $res_promise;
+    }
+
+    # Return a new promise that resolves to $res->decoded_content
+    my $decoded_content_promise = $res_promise->then(
+        sub {
+            my $res = shift;
+            return decode_json( $res->decoded_content );
+        }
+    );
+
+    return $decoded_content_promise;
 }
 
 sub _get_async {
@@ -144,7 +166,7 @@ sub _send_request {
         );
     }
 
-    return decode_json( $res->decoded_content );
+    return $res;
 }
 
 sub _send_request_async {
@@ -162,7 +184,7 @@ sub _send_request_async {
                 );
             }
 
-            return decode_json( $res->decoded_content );
+            return $res;
         }
     )->catch(
         sub {

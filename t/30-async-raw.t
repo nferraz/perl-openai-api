@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use AnyEvent;
+use JSON::MaybeXS;
 use Test::More;
 use Test::RequiresInternet;
 
@@ -25,11 +26,12 @@ my $request = OpenAI::API::Request::Completion->new(
 
 my $cv = AnyEvent->condvar;    # Create a condition variable
 
-$request->send_async()->then(
+$request->send_async( http_response => 1 )->then(
     sub {
-        my $content = shift;
-        isa_ok( $content, 'HASH' );
-        like( $content->{choices}[0]{text}, qr{test}, 'got expected string' );
+        my $response = shift;
+        isa_ok( $response, 'HTTP::Response' );
+        my $data = decode_json( $response->decoded_content );
+        like( $data->{choices}[0]{text}, qr{test}, 'got expected string' );
     }
 )->catch(
     sub {
