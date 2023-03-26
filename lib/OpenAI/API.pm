@@ -79,6 +79,8 @@ OpenAI::API - Perl interface to OpenAI API
                 { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
                 { "role" => "user",      "content" => "How do I use this module?" },
             ],
+            max_tokens  => 20,
+            temperature => 0,
         );
     }
 
@@ -95,6 +97,8 @@ OpenAI::API - Perl interface to OpenAI API
                 { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
                 { "role" => "user",      "content" => "How do I use this module?" },
             ],
+            max_tokens => 20,
+            temperature => 0,
         );
 
         my $res = $request->send();
