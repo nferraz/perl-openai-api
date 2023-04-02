@@ -23,10 +23,7 @@ my @test_cases = (
             max_tokens  => 100,
             temperature => 0,
         },
-        expected_message => {
-            role    => 'assistant',
-            content => re('\b(?:Hello|Hi|Hey)\b'),
-        },
+        expected_message => re('\b(?:Hello|Hi|Hey)\b'),
     },
     {
         method => 'chat',
@@ -37,10 +34,7 @@ my @test_cases = (
             temperature => 0,
             stop        => [ 'Hello', 'Hi', 'Hey' ],
         },
-        expected_message => {
-            role    => 'assistant',
-            content => re('^\s*$'),
-        },
+        expected_message => re('^\s*$'),
     },
 );
 
@@ -49,7 +43,7 @@ for my $test (@test_cases) {
 
     my $response = $openai->$method( %{$params} );
 
-    cmp_deeply( $response->{choices}[0]{message}, $expected_message );
+    cmp_deeply( $response, $expected_message );
 }
 
 done_testing();

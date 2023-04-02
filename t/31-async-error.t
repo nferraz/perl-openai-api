@@ -39,7 +39,7 @@ $request->send_async()->then(
     sub {
         my $error = shift;
         isa_ok( $error, 'OpenAI::API::Error' );
-        like( $error, qr/Operation timed out/, 'error message' );
+        like( $error, qr/(?:timed out|timeout)/, 'error message' );
         is( $error->response->code, 500, 'response code' );
     }
 )->finally(

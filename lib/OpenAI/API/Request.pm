@@ -40,6 +40,22 @@ sub method {
     die "Must be implemented";
 }
 
+sub _parse_response {
+    my ( $self, $res ) = @_;
+
+    my $class = ref $self || $self;
+
+    # Replace s/Request/Response/ to find the response module
+    my $response_module = $class =~ s/Request/Response/r;
+
+    # Require the OpenAI::API::Response module
+    eval "require $response_module" or die $@;
+
+    # Return the OpenAI::API::Response object
+    my $decoded_res = decode_json( $res->decoded_content );
+    return $response_module->new($decoded_res);
+}
+
 sub request_params {
     my ($self) = @_;
     my %request_params = %{$self};
@@ -66,7 +82,7 @@ sub send {
         return $res;
     }
 
-    return decode_json( $res->decoded_content );
+    return $self->_parse_response($res);
 }
 
 sub _get {
@@ -99,7 +115,7 @@ sub send_async {
     my $decoded_content_promise = $res_promise->then(
         sub {
             my $res = shift;
-            return decode_json( $res->decoded_content );
+            return $self->_parse_response($res);
         }
     );
 

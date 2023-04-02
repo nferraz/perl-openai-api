@@ -4,7 +4,7 @@ OpenAI::API - Perl interface to OpenAI API
 
 # VERSION
 
-0.33
+0.34
 
 # SYNOPSIS
 
