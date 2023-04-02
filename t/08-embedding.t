@@ -16,30 +16,36 @@ my $openai = OpenAI::API->new();
 
 my @test_cases = (
     {
-        method => 'image_create',
+        method => 'embeddings',
         params => {
-            prompt          => 'A cute baby sea otter',
-            size            => '256x256',
-            response_format => 'b64_json',
+            model => 'text-embedding-ada-002',
+            input => 'The food was delicious and the waiter...',
         },
         expected_response => noclass(
             {
-                created => ignore(),
-                data    => array_each(
+                object => 'list',
+                data   => [
                     {
-                        b64_json => ignore(),
-                    }
-                ),
+                        object    => 'embedding',
+                        embedding => array_each( ignore() ),    # array of floats
+                        index     => 0,
+                    },
+                ],
+                model => ignore(),
+                usage => {
+                    prompt_tokens => ignore(),
+                    total_tokens  => ignore(),
+                }
             }
         ),
     },
-
 );
 
 for my $test (@test_cases) {
     my ( $method, $params, $expected_response ) = @{$test}{qw/method params expected_response/};
 
     my $response = $openai->$method( %{$params} );
+
     cmp_deeply( $response, $expected_response );
 }
 

@@ -58,6 +58,10 @@ OpenAI::API::Request::Chat - chat endpoint
 
     my $message = $res->{choices}[0]{message};
 
+    # or...
+
+    print "# $res\n";                # string overload
+
 =head1 DESCRIPTION
 
 Given a chat conversation, the model will return a chat completion

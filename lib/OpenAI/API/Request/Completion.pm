@@ -47,13 +47,17 @@ OpenAI::API::Request::Completion - completions endpoint
     my $request = OpenAI::API::Request::Completion->new(
         model       => "text-davinci-003",
         prompt      => "Say this is a test",
-        max_tokens  => 7,
+        max_tokens  => 10,
         temperature => 0,
     );
 
     my $res = $request->send();    # or: $request->send( http_response => 1 );
 
     my $text = $res->{choices}[0]{text};
+
+    # or...
+
+    print "# $text\n";             # string overload
 
 =head1 DESCRIPTION
 
