@@ -3,6 +3,8 @@ package OpenAI::API::Request::Chat;
 use strict;
 use warnings;
 
+use Carp qw/croak/;
+
 use Moo;
 use strictures 2;
 use namespace::clean;
@@ -11,8 +13,8 @@ extends 'OpenAI::API::Request';
 
 use Types::Standard qw(Any Bool Int Num Str Map ArrayRef HashRef);
 
-has model    => ( is => 'rw', isa => Str, required => 1, default => 'gpt-3.5-turbo' );
-has messages => ( is => 'rw', isa => ArrayRef[HashRef], required => 1, );
+has model => ( is => 'rw', isa => Str, default => 'gpt-3.5-turbo' );
+has messages => ( is => 'rw', isa => ArrayRef [HashRef], default => sub { [] } );
 
 has max_tokens        => ( is => 'rw', isa => Int, );
 has temperature       => ( is => 'rw', isa => Num, );
@@ -30,6 +32,29 @@ has user              => ( is => 'rw', isa => Str, );
 sub endpoint { 'chat/completions' }
 sub method   { 'POST' }
 
+sub add_message {
+    my ( $self, $role, $content ) = @_;
+
+    croak 'add_message() requires two parameters: role and content' if !defined $role || !defined $content;
+
+    push @{ $self->messages }, { role => $role, content => $content };
+
+    return $self;
+}
+
+sub send_message {
+    my ( $self, $content ) = @_;
+
+    $self->add_message( 'user', $content );
+
+    my $res                = $self->send();
+    my $assistant_response = $res->{choices}[0]{message}{content};
+
+    $self->add_message( 'assistant', $assistant_response );
+
+    return $res;
+}
+
 1;
 
 __END__
@@ -42,25 +67,13 @@ OpenAI::API::Request::Chat - chat endpoint
 
     use OpenAI::API::Request::Chat;
 
-    my $request = OpenAI::API::Request::Chat->new(
-        model    => "gpt-3.5-turbo",
+    my $chat = OpenAI::API::Request::Chat->new(
         messages => [
-            { "role" => "system",    "content" => "You are a helpful assistant." },
-            { "role" => "user",      "content" => "Who won the world series in 2020?" },
-            { "role" => "assistant", "content" => "The Los Angeles Dodgers won the World Series in 2020." },
-            { "role" => "user",      "content" => "Where was it played?" }
+            { "role" => "system", "content" => "You are a helpful assistant." },
         ],
-        max_tokens  => 20,
-        temperature => 0,
     );
 
-    my $res = $request->send();    # or: $request->send( http_response => 1 );
-
-    my $message = $res->{choices}[0]{message};
-
-    # or...
-
-    print "# $res\n";                # string overload
+    my $res = $chat->send_message('Who won the world series in 2020?');
 
 =head1 DESCRIPTION
 
@@ -143,6 +156,28 @@ documented in the API reference.
 Send a request asynchronously. Returns a L<Promises> promise that will
 be resolved with the decoded JSON response. See L<OpenAI::API::Request>
 for an example.
+
+=head2 add_message($role, $content)
+
+Appends a message to the list of messages without sending a request.
+
+Returns C<$self>, so it can be chained with C<send> or C<send_async>:
+
+    my $res = OpenAI::API::Request::Chat->new()->add_message( user => 'Hi!' )->send();
+
+=head2 send_message($content)
+
+Sends a single message as user, appending messages to the conversation
+automatically. This allows you to treat the C<OpenAI::API::Request::Chat>
+object as a "chat" instead of a single request:
+
+    my $chat = OpenAI::API::Request::Chat->new();
+
+    my $res1 = $chat->send_message("Hello!");
+    print "$res1\n";
+
+    my $res2 = $chat->send_message("What can you do?");
+    print "$res2\n";
 
 =head1 SEE ALSO
 
