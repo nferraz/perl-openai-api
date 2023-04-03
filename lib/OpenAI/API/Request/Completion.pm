@@ -57,7 +57,7 @@ OpenAI::API::Request::Completion - completions endpoint
 
     # or...
 
-    print "# $text\n";             # string overload
+    #print "# $text\n";             # string overload
 
 =head1 DESCRIPTION
 

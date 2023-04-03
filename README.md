@@ -14,7 +14,6 @@ OpenAI::API - Perl interface to OpenAI API
         my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
 
         my $res = $openai->chat(
-            model    => "gpt-3.5-turbo",
             messages => [
                 { "role" => "system",    "content" => "You are a helpful assistant." },
                 { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
@@ -24,28 +23,23 @@ OpenAI::API - Perl interface to OpenAI API
             max_tokens  => 20,
             temperature => 0,
         );
+
+        my $message = $res->{choices}[0]{message};
     }
 
-    # that's roughly the same as:
-
     {
-        use OpenAI::API::Request::Chat;
+        use OpenAI::API;
 
-        my $request = OpenAI::API::Request::Chat->new(
-            model    => "gpt-3.5-turbo",
-            messages => [
-                { "role" => "system",    "content" => "You are a helpful assistant." },
-                { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
-                { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
-                { "role" => "user",      "content" => "How do I use this module?" },
-            ],
-            max_tokens => 20,
+        my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
+
+        my $res = $openai->completions(
+            model       => "text-davinci-003",
+            prompt      => "Say this is a test",
+            max_tokens  => 20,
             temperature => 0,
         );
 
-        my $res = $request->send();
-
-        my $message = $res->{choices}[0]{message};
+        my $text = $res->{choices}[0]{text};
     }
 
 # DESCRIPTION
