@@ -46,7 +46,7 @@ sub _parse_response {
     my $class = ref $self || $self;
 
     # Replace s/Request/Response/ to find the response module
-    my $response_module = $class =~ s/Request/Response/r;
+    (my $response_module = $class) =~ s/Request/Response/;
 
     # Require the OpenAI::API::Response module
     eval "require $response_module" or die $@;
