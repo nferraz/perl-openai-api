@@ -30,7 +30,9 @@ BEGIN {
 
         no strict 'refs';
         *{"$sub_name"} = sub {
-            my ( $self, %params ) = @_;
+            my $self   = shift;
+            my %params = ref $_[0] eq 'HASH' ? %{ $_[0] } : @_;
+
             my $request = $module->new( %params, config => $self->config );
             return $request->send();
         };
