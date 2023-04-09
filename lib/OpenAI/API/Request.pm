@@ -314,6 +314,11 @@ An instance of L<LWP::UserAgent> that is used to make HTTP
 requests. Defaults to a new instance of L<LWP::UserAgent> with a timeout
 set to the value of C<config-E<gt>timeout>.
 
+=head2 event_loop
+
+An instance of an event loop class, specified by
+C<config-E<gt>event_loop_class> option.
+
 =back
 
 =head1 METHODS
@@ -328,16 +333,22 @@ endpoint for the specific request.
 This method must be implemented by subclasses. It should return the HTTP
 method for the specific request.
 
-=head2 send
+=head2 send(%args)
 
-Send a request synchronously.
+This method sends the request and returns the parsed response. If the
+'http_response' key is present in the %args hash, it returns the raw
+L<HTTP::Response> object instead of the parsed response.
 
     my $response = $request->send();
 
-=head2 send_async
+    my $response = $request->send( http_response => 1 );
 
-Send a request asynchronously. Returns a future that will be resolved
-with the decoded JSON response.
+=head2 send_async(%args)
+
+This method sends the request asynchronously and returns a
+L<IO::Async::Future> object. If the 'http_response' key is present in
+the %args hash, it resolves to the raw L<HTTP::Response> object instead
+of the parsed response.
 
 Here's an example usage:
 
@@ -361,4 +372,5 @@ Here's an example usage:
 
     my $res = $future->get;
 
-Note: You can select different event loops via L<OpenAI::API::Config>.
+Note: if you want to use a different event loop, you must pass it via
+the L<config|OpenAI::API::Config> attribute.
