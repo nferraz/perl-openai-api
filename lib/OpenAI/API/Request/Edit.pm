@@ -90,7 +90,7 @@ documented in the API reference.
 
 =head2 send_async()
 
-Send a request asynchronously. Returns a L<Promises> promise that will
+Send a request asynchronously. Returns a L<future|IO::Async::Future> that will
 be resolved with the decoded JSON response. See L<OpenAI::API::Request>
 for an example.
 

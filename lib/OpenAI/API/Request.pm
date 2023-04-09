@@ -120,24 +120,24 @@ sub _post {
 sub send_async {
     my ( $self, %args ) = @_;
 
-    my $res_promise =
+    my $res_future =
           $self->method eq 'POST' ? $self->_post_async()
         : $self->method eq 'GET'  ? $self->_get_async()
         :                           die "Invalid method";
 
     if ( $args{http_response} ) {
-        return $res_promise;
+        return $res_future;
     }
 
-    # Return a new promise that resolves to $res->decoded_content
-    my $decoded_content_promise = $res_promise->then(
+    # Return a new future that resolves to $res->decoded_content
+    my $decoded_content_future = $res_future->then(
         sub {
             my $res = shift;
             return $self->_parse_response($res);
         }
     );
 
-    return $decoded_content_promise;
+    return $decoded_content_future;
 }
 
 sub _get_async {

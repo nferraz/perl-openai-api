@@ -25,7 +25,6 @@ my %WriteMakefileArgs = (
         'LWP::UserAgent'       => '6.47',
         'LWP::Protocol::https' => '6.10',
         'Moo'                  => '2.005005',
-        'Promises'             => '1.04',
         'namespace::clean'     => '0.27',
         'strictures'           => '2.000006',
         'Throwable'            => '1.001',
