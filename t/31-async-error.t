@@ -3,8 +3,8 @@
 use strict;
 use warnings;
 
-use AnyEvent;
 use Data::Dumper;
+use IO::Async::Loop;
 use Test::More;
 use Test::RequiresInternet;
 
@@ -28,9 +28,9 @@ my $request = OpenAI::API::Request::Completion->new(
     config      => $config,
 );
 
-my $cv = AnyEvent->condvar;    # Create a condition variable
+my $loop = IO::Async::Loop->new();
 
-$request->send_async()->then(
+my $future = $request->send_async()->then(
     sub {
         my $response_data = shift;
         fail('This test should raise a timeout exception');
@@ -42,11 +42,10 @@ $request->send_async()->then(
         like( $error, qr/(?:timed out|timeout)/, 'error message' );
         is( $error->response->code, 500, 'response code' );
     }
-)->finally(
-    sub {
-        done_testing();
-        $cv->send();
-    }
 );
 
-$cv->recv;    # keep the script running until the request is completed.
+$loop->await($future);
+
+my $res = $future->get;
+
+done_testing();

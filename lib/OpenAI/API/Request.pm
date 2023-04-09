@@ -1,9 +1,9 @@
 package OpenAI::API::Request;
 
-use AnyEvent;
+use IO::Async::Loop;
+use IO::Async::Future;
 use JSON::MaybeXS;
 use LWP::UserAgent;
-use Promises qw/deferred/;
 
 use Moo;
 use strictures 2;
@@ -19,6 +19,10 @@ has 'config' => (
         die "config must be an instance of OpenAI::API::Config"
             unless ref $_[0] eq 'OpenAI::API::Config';
     },
+    coerce => sub {
+        return $_[0] if ref $_[0] eq 'OpenAI::API::Config';
+        return OpenAI::API::Config->new( %{ $_[0] } );
+    },
 );
 
 has 'user_agent' => (
@@ -27,9 +31,22 @@ has 'user_agent' => (
     builder => '_build_user_agent',
 );
 
+has 'event_loop' => (
+    is      => 'ro',
+    lazy    => 1,
+    builder => '_build_event_loop',
+);
+
 sub _build_user_agent {
     my ($self) = @_;
     $self->{user_agent} = LWP::UserAgent->new( timeout => $self->config->timeout );
+}
+
+sub _build_event_loop {
+    my ($self) = @_;
+    my $class = $self->config->event_loop_class;
+    eval "require $class" or die "Failed to load event loop class $class: $@";
+    return $class->new();
 }
 
 sub endpoint {
@@ -46,7 +63,7 @@ sub _parse_response {
     my $class = ref $self || $self;
 
     # Replace s/Request/Response/ to find the response module
-    (my $response_module = $class) =~ s/Request/Response/;
+    ( my $response_module = $class ) =~ s/Request/Response/;
 
     # Require the OpenAI::API::Response module
     eval "require $response_module" or die $@;
@@ -61,6 +78,7 @@ sub request_params {
     my %request_params = %{$self};
     delete $request_params{config};
     delete $request_params{user_agent};
+    delete $request_params{event_loop};
     return \%request_params;
 }
 
@@ -160,19 +178,13 @@ sub _request_headers {
 sub _send_request {
     my ( $self, $req ) = @_;
 
-    my $cond_var = AnyEvent->condvar;
+    my $loop = IO::Async::Loop->new();
 
-    $self->_async_http_send_request($req)->then(
-        sub {
-            $cond_var->send(@_);
-        }
-    )->catch(
-        sub {
-            $cond_var->send(@_);
-        }
-    );
+    my $future = $self->_async_http_send_request($req);
 
-    my $res = $cond_var->recv();
+    $loop->await($future);
+
+    my $res = $future->get;
 
     if ( !$res->is_success ) {
         OpenAI::API::Error->throw(
@@ -229,20 +241,22 @@ sub _http_send_request {
 sub _async_http_send_request {
     my ( $self, $req ) = @_;
 
-    my $d = deferred;
+    my $future = IO::Async::Future->new;
 
-    AnyEvent::postpone {
-        eval {
-            my $res = $self->_http_send_request($req);
-            $d->resolve($res);
-            1;
-        } or do {
-            my $err = $@;
-            $d->reject($err);
-        };
-    };
+    $self->event_loop->later(
+        sub {
+            eval {
+                my $res = $self->_http_send_request($req);
+                $future->done($res);
+                1;
+            } or do {
+                my $err = $@;
+                $future->fail($err);
+            };
+        }
+    );
 
-    return $d->promise();
+    return $future;
 }
 
 1;
@@ -269,6 +283,14 @@ API. It should not be used directly.
     sub method {
         'POST'
     }
+
+    # somewhere else...
+
+    use OpenAI::API::Request::NewRequest;
+
+    my $req = OpenAI::API::Request::NewRequest->new(...);
+
+    my $res = $req->send();    # or: my $res = $req->send_async();
 
 =head1 DESCRIPTION
 
@@ -314,32 +336,29 @@ Send a request synchronously.
 
 =head2 send_async
 
-Send a request asynchronously. Returns a L<Promises> promise that will
-be resolved with the decoded JSON response.
+Send a request asynchronously. Returns a future that will be resolved
+with the decoded JSON response.
 
 Here's an example usage:
 
-    my $cv = AnyEvent->condvar;    # Create a condition variable
+    use IO::Async::Loop;
 
-    $request->send_async()->then(
+    my $loop = IO::Async::Loop->new();
+
+    my $future = $request->send_async()->then(
         sub {
-            my $response_data = shift;
-            print "Response data: " . Dumper($response_data);
+            my $content = shift;
+            # ...
         }
     )->catch(
         sub {
             my $error = shift;
-            print "$error\n";
-        }
-    )->finally(
-        sub {
-            print "Request completed\n";
-            $cv->send();    # Signal the condition variable when the request is completed
+            # ...
         }
     );
 
-    $cv->recv;              # Keep the script running until the request is completed.
+    $loop->await($future);
 
-=head1 SEE ALSO
+    my $res = $future->get;
 
-L<OpenAI::API::Config>
+Note: You can select different event loops via L<OpenAI::API::Config>.

@@ -3,11 +3,9 @@ package OpenAI::API;
 use strict;
 use warnings;
 
-use Carp ();
-
 use OpenAI::API::Config;
 
-our $VERSION = 0.35;
+our $VERSION = 0.36;
 
 BEGIN {
     my %module_dispatcher = (
@@ -68,39 +66,22 @@ OpenAI::API - Perl interface to OpenAI API
 
 =head1 SYNOPSIS
 
-    {
-        use OpenAI::API;
+    use OpenAI::API;
 
-        my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
+    my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
 
-        my $res = $openai->chat(
-            messages => [
-                { "role" => "system",    "content" => "You are a helpful assistant." },
-                { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
-                { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
-                { "role" => "user",      "content" => "How do I use this module?" },
-            ],
-            max_tokens  => 20,
-            temperature => 0,
-        );
+    my $res = $openai->chat(
+        messages => [
+            { "role" => "system",    "content" => "You are a helpful assistant." },
+            { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
+            { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
+            { "role" => "user",      "content" => "Where can I find this module?" },
+        ],
+        max_tokens  => 20,
+        temperature => 0,
+    );
 
-        my $message = $res->{choices}[0]{message};
-    }
-
-    {
-        use OpenAI::API;
-
-        my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
-
-        my $res = $openai->completions(
-            model       => "text-davinci-003",
-            prompt      => "Say this is a test",
-            max_tokens  => 20,
-            temperature => 0,
-        );
-
-        my $text = $res->{choices}[0]{text};
-    }
+    my $message = $res->{choices}[0]{message};    # or simply: my $message = "$res";
 
 =head1 DESCRIPTION
 
@@ -224,6 +205,8 @@ L<Model Retrieve|OpenAI::API::Request::Model::Retrieve> request.
 
 L<Moderation|OpenAI::API::Request::Moderation> request.
 
+=for readme start
+
 =head1 RESOURCES
 
 =over
@@ -249,6 +232,8 @@ L<Moderation|OpenAI::API::Request::Moderation> request.
 =item * L<OpenAI::API::Request::Moderation>
 
 =back
+
+=for readme stop
 
 =head1 SEE ALSO
 
