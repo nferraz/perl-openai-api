@@ -2,6 +2,7 @@ Revision history for OpenAI-API
 
 0.36    2023-04-09
         Replace AnyEvent with IO::Async::Loop
+        Replace Promises with IO::Async::Future
 
 0.35    2023-04-03
         Implement add_message() and send_message() chat methods.
