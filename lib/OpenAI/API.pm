@@ -3,11 +3,9 @@ package OpenAI::API;
 use strict;
 use warnings;
 
-use Carp ();
-
 use OpenAI::API::Config;
 
-our $VERSION = 0.35;
+our $VERSION = 0.36;
 
 BEGIN {
     my %module_dispatcher = (
