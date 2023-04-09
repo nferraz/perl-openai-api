@@ -61,7 +61,8 @@ __END__
 
 =head1 NAME
 
-OpenAI::API::Request::Chat - chat endpoint
+OpenAI::API::Request::Chat - Request class for OpenAI API chat-based
+completion
 
 =head1 SYNOPSIS
 
@@ -69,116 +70,103 @@ OpenAI::API::Request::Chat - chat endpoint
 
     my $chat = OpenAI::API::Request::Chat->new(
         messages => [
-            { "role" => "system", "content" => "You are a helpful assistant." },
+            { role => 'system', content => 'You are a helpful assistant.' },
+            { role => 'user', content => 'Who won the world series in 2020?' },
         ],
     );
 
-    my $res = $chat->send_message('Who won the world series in 2020?');
+    my $res     = $chat->send();                  # or: my $res = $chat->send(%args);
+    my $message = $res->{choices}[0]{message};    # or: my $message = "$res";
+
+    # continue the conversation...
+    # $res = $chat->send_message('What is the capital of France?');
 
 =head1 DESCRIPTION
 
-Given a chat conversation, the model will return a chat completion
-response (similar to ChatGPT).
+This module provides a request class for interacting with the OpenAI API's
+chat-based completion endpoint. It inherits from L<OpenAI::API::Request>.
 
-=head1 METHODS
+=head1 ATTRIBUTES
 
-=head2 new()
-
-=over 4
-
-=item * model
+=head2 model
 
 ID of the model to use.
 
 See L<Models overview|https://platform.openai.com/docs/models/overview>
 for a reference of them.
 
-=item * messages
+=head2 messages
 
 The messages to generate chat completions for, in the L<chat
 format|https://platform.openai.com/docs/guides/chat/introduction>.
 
-=item * max_tokens [optional]
+=head2 max_tokens [optional]
 
 The maximum number of tokens to generate.
 
 Most models have a context length of 2048 tokens (except for the newest
-models, which support 4096.
+models, which support 4096).
 
-=item * temperature [optional]
+=head2 temperature [optional]
 
 What sampling temperature to use, between 0 and 2. Higher values like
 0.8 will make the output more random, while lower values like 0.2 will
 make it more focused and deterministic.
 
-=item * top_p [optional]
+=head2 top_p [optional]
 
 An alternative to sampling with temperature, called nucleus sampling.
 
 We generally recommend altering this or C<temperature> but not both.
 
-=item * n [optional]
+=head2 n [optional]
 
 How many completions to generate for each prompt.
 
 Use carefully and ensure that you have reasonable settings for
 C<max_tokens> and C<stop>.
 
-=item * stop [optional]
+=head2 stop [optional]
 
 Up to 4 sequences where the API will stop generating further tokens. The
 returned text will not contain the stop sequence.
 
-=item * frequency_penalty [optional]
+=head2 frequency_penalty [optional]
 
 Number between -2.0 and 2.0. Positive values penalize new tokens based
 on their existing frequency in the text so far.
 
-=item * presence_penalty [optional]
+=head2 presence_penalty [optional]
 
 Number between -2.0 and 2.0. Positive values penalize new tokens based
 on whether they appear in the text so far.
 
-=item * user [optional]
+=head2 user [optional]
 
 A unique identifier representing your end-user, which can help OpenAI
 to monitor and detect abuse.
 
-=back
-
-=head2 send()
-
-Sends the request and returns a data structured similar to the one
-documented in the API reference.
-
-=head2 send_async()
-
-Send a request asynchronously. Returns a L<future|IO::Async::Future> that will
-be resolved with the decoded JSON response. See L<OpenAI::API::Request>
-for an example.
+=head1 METHODS
 
 =head2 add_message($role, $content)
 
-Appends a message to the list of messages without sending a request.
-
-Returns C<$self>, so it can be chained with C<send> or C<send_async>:
-
-    my $res = OpenAI::API::Request::Chat->new()->add_message( user => 'Hi!' )->send();
+This method adds a new message with the given role and content to the
+messages attribute.
 
 =head2 send_message($content)
 
-Sends a single message as user, appending messages to the conversation
-automatically. This allows you to treat the C<OpenAI::API::Request::Chat>
-object as a "chat" instead of a single request:
+This method adds a user message with the given content, sends the request,
+and returns the response. It also adds the assistant's response to the
+messages attribute.
 
-    my $chat = OpenAI::API::Request::Chat->new();
+=head1 INHERITED METHODS
 
-    my $res1 = $chat->send_message("Hello!");
-    print "$res1\n";
+This module inherits the following methods from L<OpenAI::API::Request>:
 
-    my $res2 = $chat->send_message("What can you do?");
-    print "$res2\n";
+=head2 send(%args)
+
+=head2 send_async(%args)
 
 =head1 SEE ALSO
 
-OpenAI API Reference: L<Chat|https://platform.openai.com/docs/api-reference/chat>
+L<OpenAI::API::Request>, L<OpenAI::API::Config>
