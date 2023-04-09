@@ -8,39 +8,22 @@ OpenAI::API - Perl interface to OpenAI API
 
 # SYNOPSIS
 
-    {
-        use OpenAI::API;
+    use OpenAI::API;
 
-        my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
+    my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
 
-        my $res = $openai->chat(
-            messages => [
-                { "role" => "system",    "content" => "You are a helpful assistant." },
-                { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
-                { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
-                { "role" => "user",      "content" => "How do I use this module?" },
-            ],
-            max_tokens  => 20,
-            temperature => 0,
-        );
+    my $res = $openai->chat(
+        messages => [
+            { "role" => "system",    "content" => "You are a helpful assistant." },
+            { "role" => "user",      "content" => "How can I access OpenAI's APIs in Perl?" },
+            { "role" => "assistant", "content" => "You can use the OpenAI::API module." },
+            { "role" => "user",      "content" => "Where can I find this module?" },
+        ],
+        max_tokens  => 20,
+        temperature => 0,
+    );
 
-        my $message = $res->{choices}[0]{message};
-    }
-
-    {
-        use OpenAI::API;
-
-        my $openai = OpenAI::API->new();    # uses OPENAI_API_KEY environment variable
-
-        my $res = $openai->completions(
-            model       => "text-davinci-003",
-            prompt      => "Say this is a test",
-            max_tokens  => 20,
-            temperature => 0,
-        );
-
-        my $text = $res->{choices}[0]{text};
-    }
+    my $message = $res->{choices}[0]{message};    # or simply: my $message = "$res";
 
 # DESCRIPTION
 
@@ -79,6 +62,19 @@ After installing, you can find documentation for this module with the
 perldoc command.
 
     perldoc OpenAI::API
+
+# RESOURCES
+
+- [OpenAI::API::Request::Chat](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AChat)
+- [OpenAI::API::Request::Completion](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3ACompletion)
+- [OpenAI::API::Request::Edit](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AEdit)
+- [OpenAI::API::Request::Embedding](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AEmbedding)
+- [OpenAI::API::Request::File::List](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AFile%3A%3AList)
+- [OpenAI::API::Request::File::Retrieve](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AFile%3A%3ARetrieve)
+- [OpenAI::API::Request::Image::Generation](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AImage%3A%3AGeneration)
+- [OpenAI::API::Request::Model::List](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AModel%3A%3AList)
+- [OpenAI::API::Request::Model::Retrieve](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AModel%3A%3ARetrieve)
+- [OpenAI::API::Request::Moderation](https://metacpan.org/pod/OpenAI%3A%3AAPI%3A%3ARequest%3A%3AModeration)
 
 # AUTHOR
 
