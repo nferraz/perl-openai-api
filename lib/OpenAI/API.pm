@@ -5,7 +5,7 @@ use warnings;
 
 use OpenAI::API::Config;
 
-our $VERSION = 0.36;
+our $VERSION = 0.37;
 
 BEGIN {
     my %module_dispatcher = (
