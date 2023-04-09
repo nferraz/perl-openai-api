@@ -300,15 +300,13 @@ requests, with support for HTTP GET and POST methods.
 
 =head1 ATTRIBUTES
 
-=over 4
-
-=item * config
+=head2 config
 
 An instance of L<OpenAI::API::Config> that provides configuration
 options for the OpenAI API client. Defaults to a new instance of
 L<OpenAI::API::Config>.
 
-=item * user_agent
+=head2 user_agent
 
 An instance of L<LWP::UserAgent> that is used to make HTTP
 requests. Defaults to a new instance of L<LWP::UserAgent> with a timeout
@@ -318,8 +316,6 @@ set to the value of C<config-E<gt>timeout>.
 
 An instance of an event loop class, specified by
 C<config-E<gt>event_loop_class> option.
-
-=back
 
 =head1 METHODS
 
