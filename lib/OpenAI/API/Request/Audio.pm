@@ -23,6 +23,52 @@ has temperature       => ( is => 'rw', isa => Num, );
 sub endpoint { 'audio/transcriptions' }
 sub method   { 'POST' }
 
+sub _request_headers {
+    my ($self) = @_;
+
+    return [
+        'Content-Type'  => 'multipart/form-data',
+        'Authorization' => 'Bearer ' . $self->config->api_key,
+    ];
+}
+
+around send => sub {
+    my $orig = shift;
+    my $self = shift;
+    my %args = @_;
+    $args{'http_response'} = 1;
+    
+    # Call the original method
+    my $res = $self->$orig(%args); 
+    return $res->decoded_content;
+};
+
+
+sub _post {
+    my ($self) = @_;
+
+	my $params =  $self->request_params();
+
+	# Add the file to the request body
+	open my $file, '<', $params->{'file'} or die "Could not open file: $!";
+	binmode $file;
+	my $fileData = do { local $/; <$file> };	
+	close $file;
+		
+    $params->{'file'} = [ $params->{'file'} ];
+
+	# Use alternative library to build a request with the file included.
+	use HTTP::Request::Common;
+
+	my $req = HTTP::Request::Common::POST( $self->config->api_base . '/' . $self->endpoint,
+			 Content_Type => 'form-data',
+			 Authorization => 'Bearer ' . $self->config->api_key,
+			 Content      => $params
+		 );
+
+    return $self->_send_request($req);
+}
+
 1;
 
 __END__
@@ -108,18 +154,6 @@ on whether they appear in the text so far.
 A unique identifier representing your end-user, which can help OpenAI
 to monitor and detect abuse.
 
-=head1 METHODS
-
-=head2 add_message($role, $content)
-
-This method adds a new message with the given role and content to the
-messages attribute.
-
-=head2 send_message($content)
-
-This method adds a user message with the given content, sends the request,
-and returns the response. It also adds the assistant's response to the
-messages attribute.
 
 =head1 INHERITED METHODS
 
