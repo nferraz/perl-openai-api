@@ -15,6 +15,8 @@ has prompt => ( is => 'ro', isa => Str, required => 1, );
 
 has n               => ( is => 'ro', isa => Int, );
 has size            => ( is => 'ro', isa => Enum [ '256x256', '512x512', '1024x1024' ], );
+has quality         => ( is => 'ro', isa => Enum [ 'standard', 'hd' ], );
+has style           => ( is => 'ro', isa => Enum [ 'vivid', 'natural' ], );
 has response_format => ( is => 'ro', isa => Enum [ 'url',     'b64_json' ], );
 has user            => ( is => 'ro', isa => Str, );
 
