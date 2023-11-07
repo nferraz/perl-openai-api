@@ -18,6 +18,8 @@ has size            => ( is => 'ro', isa => Enum [ '256x256', '512x512', '1024x1
 has quality         => ( is => 'ro', isa => Enum [ 'standard', 'hd' ], );
 has style           => ( is => 'ro', isa => Enum [ 'vivid', 'natural' ], );
 has response_format => ( is => 'ro', isa => Enum [ 'url',     'b64_json' ], );
+has model           => ( is => 'ro', isa => Enum [ 'dall-e-2', 'dall-e-3' ], );
+
 has user            => ( is => 'ro', isa => Str, );
 
 sub endpoint { 'images/generations' }
