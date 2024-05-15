@@ -28,6 +28,8 @@ has presence_penalty  => ( is => 'rw', isa => Num, );
 has frequency_penalty => ( is => 'rw', isa => Num, );
 has logit_bias        => ( is => 'rw', isa => Map [ Int, Int ], );
 has user              => ( is => 'rw', isa => Str, );
+has tools             => ( is => 'rw', isa => ArrayRef, );
+has tool_choice       => ( is => 'rw', isa => Str, );
 
 sub endpoint { 'chat/completions' }
 sub method   { 'POST' }
@@ -47,10 +49,12 @@ sub send_message {
 
     $self->add_message( 'user', $content );
 
-    my $res                = $self->send();
-    my $assistant_response = $res->{choices}[0]{message}{content};
+    my $res = $self->send();
 
-    $self->add_message( 'assistant', $assistant_response );
+    if (defined $res->{choices}[0]{message}{content}) {
+       my $assistant_response = $res->{choices}[0]{message}{content};
+       $self->add_message( 'assistant', $assistant_response );
+    }
 
     return $res;
 }
