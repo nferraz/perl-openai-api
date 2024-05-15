@@ -14,8 +14,12 @@ extends 'OpenAI::API::Request';
 has prompt => ( is => 'ro', isa => Str, required => 1, );
 
 has n               => ( is => 'ro', isa => Int, );
-has size            => ( is => 'ro', isa => Enum [ '256x256', '512x512', '1024x1024' ], );
+has size            => ( is => 'ro', isa => Enum [ '256x256', '512x512', '1024x1024', '1024x1792', '1792x1024' ], );
+has quality         => ( is => 'ro', isa => Enum [ 'standard', 'hd' ], );
+has style           => ( is => 'ro', isa => Enum [ 'vivid', 'natural' ], );
 has response_format => ( is => 'ro', isa => Enum [ 'url',     'b64_json' ], );
+has model           => ( is => 'ro', isa => Enum [ 'dall-e-2', 'dall-e-3' ], );
+
 has user            => ( is => 'ro', isa => Str, );
 
 sub endpoint { 'images/generations' }
