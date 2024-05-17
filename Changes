@@ -1,5 +1,8 @@
 Revision history for OpenAI-API
 
+0.38    2024-05-17
+		Mark as deprecated in favor of OpenAPI::Client::OpenAI
+
 0.37    2023-04-09
         Replace AnyEvent with IO::Async::Loop
         Replace Promises with IO::Async::Future

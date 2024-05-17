@@ -5,7 +5,7 @@ use warnings;
 
 use OpenAI::API::Config;
 
-our $VERSION = 0.37;
+our $VERSION = 0.38;
 
 BEGIN {
     my %module_dispatcher = (
@@ -84,6 +84,8 @@ OpenAI::API - Perl interface to OpenAI API
     my $message = $res->{choices}[0]{message};    # or simply: my $message = "$res";
 
 =head1 DESCRIPTION
+
+This module is deprecated in favor of L<OpenAPI::Client::OpenAI>.
 
 OpenAI::API is a Perl module that provides an interface to the OpenAI API,
 which allows you to generate text, translate languages, summarize text,

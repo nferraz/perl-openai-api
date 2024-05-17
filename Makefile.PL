@@ -42,6 +42,7 @@ my %WriteMakefileArgs = (
                 web => 'https://github.com/nferraz/perl-openai-api/issues',
             },
         },
+        x_deprecated => 1,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'OpenAI-API-*' },
