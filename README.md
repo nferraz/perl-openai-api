@@ -4,7 +4,7 @@ OpenAI::API - Perl interface to OpenAI API
 
 # VERSION
 
-0.37
+0.38
 
 # SYNOPSIS
 
@@ -26,6 +26,9 @@ OpenAI::API - Perl interface to OpenAI API
     my $message = $res->{choices}[0]{message};    # or simply: my $message = "$res";
 
 # DESCRIPTION
+
+This module is deprecated in favor of
+[OpenAPI::Client::OpenAI](https://metacpan.org/pod/OpenAPI::Client::OpenAI).
 
 OpenAI::API is a Perl module that provides an interface to the OpenAI API,
 which allows you to generate text, translate languages, summarize text,
